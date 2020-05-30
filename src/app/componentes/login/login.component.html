@@ -1,4 +1,4 @@
-<input type="button" value="Salir" (click)="salir()">
+<input type="button" value="Salir" (click)="salir()" *ngIf="estaLogueado()">
 <ngx-auth-firebaseui-login
     [providers]="[]"
     [registrationEnabled]="false"
@@ -11,6 +11,5 @@
     [emailErrorPatternText]="'Por favor informe una dirección válida de correo electrónico'"
     [passwordText]="'Clave de acceso'"
     [passwordErrorRequiredText]="'Por favor ingrese su clave de acceso'"
-    (onSuccess)="ingresar($event)"
     (onError)="mostrarError($event)">
 </ngx-auth-firebaseui-login>

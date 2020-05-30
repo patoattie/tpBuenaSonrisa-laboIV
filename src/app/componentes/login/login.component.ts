@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../servicios/auth.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -10,16 +9,15 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private auth: AuthService,
-    public jwt: JwtHelperService
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void { }
 
-  public ingresar(usuario: any) {
+  /*public ingresar(usuario: any) {
     console.log(usuario);
     console.log(this.jwt.decodeToken(usuario.xa));
-  }
+  }*/
 
   public salir() {
     this.auth.logout();
@@ -36,5 +34,9 @@ export class LoginComponent implements OnInit {
       default:
         console.log('ERROR: ', error);
     }
+  }
+
+  public estaLogueado(): boolean {
+    return this.auth.usuarioValido();
   }
 }
