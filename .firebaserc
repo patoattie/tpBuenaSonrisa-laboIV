@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "tpbuenasonrisa": {
+      "hosting": {
+        "tpBuenaSonrisa-laboIV": [
+          "tpbuenasonrisa"
+        ]
+      }
+    }
+  }
+}
