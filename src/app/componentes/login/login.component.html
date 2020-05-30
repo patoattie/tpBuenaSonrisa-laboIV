@@ -1,0 +1,16 @@
+<input type="button" value="Salir" (click)="salir()">
+<ngx-auth-firebaseui-login
+    [providers]="[]"
+    [registrationEnabled]="false"
+    [resetPasswordEnabled]="false"
+    [titleText]="'Por favor ingrese su correo y clave de acceso'"
+    [loginButtonText]="'Ingresar'"
+    [emailText]="'Correo electrónico'"
+    [emailErrorRequiredText]="'Por favor informe su dirección de correo electrónico'"
+    [emailErrorPatternText]="'Por favor informe una dirección válida de correo electrónico'"
+    [passwordText]="'Clave de acceso'"
+    [passwordErrorRequiredText]="'Por favor ingrese su clave de acceso'"
+    [messageOnAuthSuccess]="null"
+    (onSuccess)="ingresar($event)"
+>
+</ngx-auth-firebaseui-login>

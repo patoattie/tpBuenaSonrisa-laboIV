@@ -8,12 +8,16 @@ import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 import { AppComponent } from './app.component';
+import { LoginComponent } from './componentes/login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +26,16 @@ import { AppComponent } from './app.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxAuthFirebaseUIModule.forRoot(
+      environment.firebaseConfig,
+      () => 'Buena Sonrisa',
+      {
+        toastMessageOnAuthSuccess: false,
+        passwordMinLength: 6
+      }
+    ),
+    MatPasswordStrengthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
