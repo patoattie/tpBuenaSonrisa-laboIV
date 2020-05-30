@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
@@ -13,6 +14,10 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
+
+export function tokenGetter() {
+  return localStorage.getItem('usuario');
+}
 
 @NgModule({
   declarations: [
@@ -31,11 +36,20 @@ import { LoginComponent } from './componentes/login/login.component';
       environment.firebaseConfig,
       () => 'Buena Sonrisa',
       {
+        enableFirestoreSync: false, // enable/disable autosync users with firestore
         toastMessageOnAuthSuccess: false,
-        passwordMinLength: 6
+        toastMessageOnAuthError: false,
+        passwordMinLength: 6,
+        passwordMaxLength: 60,
+        enableEmailVerification: false
       }
     ),
-    MatPasswordStrengthModule
+    MatPasswordStrengthModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
