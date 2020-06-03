@@ -1,20 +1,27 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Login } from '../../clases/login';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService } from '../../servicios/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   @Input() login: Login;
   @Output() ingresarEvent = new EventEmitter<Login>();
   public ocultaClave = true;
   public loginForm: FormGroup;
+  private desuscribir = new Subject<void>();
 
   constructor(
-    private fb: FormBuilder
+    private auth: AuthService,
+    private fb: FormBuilder,
+    private snack: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -22,6 +29,18 @@ export class LoginComponent implements OnInit {
       correo: [this.login.correo, [Validators.required, Validators.email]],
       clave: [this.login.clave, [Validators.required, Validators.minLength(6)]]
     });
+
+    this.auth.getError()
+    .pipe(takeUntil(this.desuscribir))
+    .subscribe(unError => {
+      if (unError) {
+        this.mostrarError(unError);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+
   }
 
   public ingresar() {
@@ -32,21 +51,34 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  // public mostrarError(error: any) {
   public mostrarError(control: string): string {
-    /*switch (error.code) {
-      case 'auth/wrong-password':
-        console.log('Usuario o contraseña invalidos');
-        break;
-      case 'auth/user-not-found':
-        console.log('Usuario o contraseña invalidos');
-        break;
-      default:
-        console.log('ERROR: ', error);
-    }*/
     let retorno = '';
 
     switch (control) {
+      case 'auth/wrong-password':
+        this.snack.open('Usuario o contraseña invalidos', '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'snack-error'
+        });
+        break;
+      case 'auth/user-not-found':
+        this.snack.open('Usuario o contraseña invalidos', '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'snack-error'
+        });
+        break;
+      case 'auth/too-many-requests':
+        this.snack.open('Usuario o contraseña invalidos', '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'snack-error'
+        });
+        break;
       case 'correo':
         if (this.loginForm.controls.correo.hasError('required')) {
           retorno = 'Debe ingresar un correo electrónico';
