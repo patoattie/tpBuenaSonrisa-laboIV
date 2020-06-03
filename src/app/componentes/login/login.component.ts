@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../servicios/auth.service';
 import { Login } from '../../clases/login';
 
 @Component({
@@ -15,9 +14,8 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(
-    private auth: AuthService,
     private fb: FormBuilder
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -33,10 +31,6 @@ export class LoginComponent implements OnInit {
       this.ingresarEvent.emit(this.login);
     }
   }
-
-  /*public salir() {
-    this.auth.logout();
-  }*/
 
   // public mostrarError(error: any) {
   public mostrarError(control: string): string {
@@ -74,9 +68,5 @@ export class LoginComponent implements OnInit {
     }
 
     return retorno;
-  }
-
-  public estaLogueado(): boolean {
-    return this.auth.usuarioValido();
   }
 }
