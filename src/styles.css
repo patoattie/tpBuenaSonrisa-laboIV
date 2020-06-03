@@ -7,3 +7,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: white;
     font-weight: bold;
 }
+.snack-ok {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+.snack-warning {
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+}
