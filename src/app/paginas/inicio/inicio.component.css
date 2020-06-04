@@ -28,7 +28,7 @@ p {
     float: right;
 }
 
-a {
+button {
     width: 15%;
     margin-left: 1%;
 }
@@ -52,7 +52,7 @@ a {
         padding-top: 1%;
     }
 
-    a {
+    button {
         width: 48%;
         margin-left: 1%;
     }

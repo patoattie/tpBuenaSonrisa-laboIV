@@ -1,4 +1,7 @@
 <mat-toolbar color="primary">
     <!-- <img src="../../../assets/banner.png" alt="Buena Sonrisa - TP Obligatorio"> -->
+    <button mat-flat-button color="primary" *ngIf="puedeIrAtras()" (click)="irAtras()">
+        <mat-icon aria-hidden="false" aria-label="Ir atras">arrow_back</mat-icon>
+    </button>
     Buena Sonrisa
 </mat-toolbar>
