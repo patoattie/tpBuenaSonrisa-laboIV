@@ -25,7 +25,7 @@ export class IngresoComponent implements OnInit {
   public ingresar() {
     // console.log(this.usuario);
     this.auth.login(this.usuario.correo, this.usuario.clave)
-    .then(user => this.toast.mostrarOk('Hola '.concat(user.user.email)))
+    // .then(user => this.toast.mostrarOk('Hola '.concat(user.user.email)))
     .catch(error => this.mostrarError(error.code));
   }
 
