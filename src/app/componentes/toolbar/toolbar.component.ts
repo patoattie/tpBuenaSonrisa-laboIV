@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,7 +10,8 @@ import { Location } from '@angular/common';
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private location: Location
+    private location: Location,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void { }
@@ -22,5 +24,9 @@ export class ToolbarComponent implements OnInit {
 
   public puedeIrAtras(): boolean {
     return this.location.path() !== '/inicio';
+  }
+
+  public usuarioLogueado(): boolean {
+    return this.auth.usuarioValido();
   }
 }

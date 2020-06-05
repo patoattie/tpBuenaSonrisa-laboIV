@@ -1,9 +1,19 @@
-/** {
-    background-color: #7f7f7f;
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
 }
 
-img {
-    height: 100%;
-    width: auto;
+.celu {
+    display: none;
 }
-*/
+
+@media screen and (max-width: 600px) {
+    .pc {
+        display: none;
+    }
+
+    .celu {
+        display: inline;
+    }
+}

@@ -1,7 +1,29 @@
 <mat-toolbar color="primary">
     <!-- <img src="../../../assets/banner.png" alt="Buena Sonrisa - TP Obligatorio"> -->
-    <button mat-flat-button color="primary" *ngIf="puedeIrAtras()" (click)="irAtras()">
-        <mat-icon aria-hidden="false" aria-label="Ir atras">arrow_back</mat-icon>
+    <button mat-icon-button aria-label="Ir atras" *ngIf="puedeIrAtras()" (click)="irAtras()">
+        <mat-icon>arrow_back</mat-icon>
     </button>
     Buena Sonrisa
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="example-fill-remaining-space"></span>
+    <div class="pc">
+        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/login']">Ingresar</button>
+        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/login']">Registrarse</button>
+    </div>
+
+    <div class="celu">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/login']">
+                <span>Ingresar</span>
+            </button>
+            <button mat-menu-item [routerLink]="['/login']">
+                <span>Registrarse</span>
+            </button>
+        </mat-menu>
+    </div>
 </mat-toolbar>
