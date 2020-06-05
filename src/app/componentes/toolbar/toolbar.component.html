@@ -7,9 +7,10 @@
 
     <!-- This fills the remaining space of the current row -->
     <span class="example-fill-remaining-space"></span>
+
     <div class="pc">
         <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/login']">Ingresar</button>
-        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/login']">Registrarse</button>
+        <button mat-stroked-button *ngIf="!usuarioLogueado()">Registrarse</button>
     </div>
 
     <div class="celu">
@@ -18,10 +19,10 @@
         </button>
 
         <mat-menu #menu="matMenu">
-            <button mat-menu-item [routerLink]="['/login']">
+            <button mat-menu-item *ngIf="!usuarioLogueado()" [routerLink]="['/login']">
                 <span>Ingresar</span>
             </button>
-            <button mat-menu-item [routerLink]="['/login']">
+            <button mat-menu-item *ngIf="!usuarioLogueado()">
                 <span>Registrarse</span>
             </button>
         </mat-menu>
