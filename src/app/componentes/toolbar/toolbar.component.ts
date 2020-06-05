@@ -29,4 +29,8 @@ export class ToolbarComponent implements OnInit {
   public usuarioLogueado(): boolean {
     return this.usuarios.usuarioValido();
   }
+
+  public getTipoCliente() {
+    return this.usuarios.getTipoCliente();
+  }
 }

@@ -17,7 +17,7 @@
 <div class="contenedor">
     <img src="../../../assets/bienvenidos.png" alt="Bienvenidos a la Clínica de Salud Dental">
     <button mat-raised-button color="primary" [routerLink]="['/login']">Ingresar</button>
-    <button mat-raised-button color="accent">Quiero Registrarme</button>
+    <button mat-raised-button color="accent" [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">Quiero Registrarme</button>
     <p>
       La clínica Buena Sonrisa, especialista en salud dental,​ cuenta actualmente con siete consultorios (más otros tres que están en construcción), dos laboratorios (uno especializado en diagnóstico por imágenes, y otro en mecánica dental), y una sala de espera general. Está abierta al público de lunes a viernes en el horario de 8:00 a 19:00, y los sábados en el horario de 8:00 a 14:00.
       Somos un equipo de profesionales con trayectoria familiar en odontología. La capacitación constante nos permite brindar, día a día, un servicio óptimo a nuestros pacientes.

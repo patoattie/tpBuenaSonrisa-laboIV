@@ -1,0 +1,40 @@
+<form [formGroup]="signupForm" (ngSubmit)="registrar()">
+    <div class="container">
+        <mat-form-field appearance="fill">
+          <mat-label>Correo electrónico</mat-label>
+          <input type="email" matInput placeholder="Ingrese su dirección de correo" [formControl]="signupForm.controls.correo">
+          <mat-error *ngIf="signupForm.controls.correo.invalid">{{ mostrarError('correo') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre y Apellido</mat-label>
+          <input type="text" matInput placeholder="Ingrese su nombre y apellido" [formControl]="signupForm.controls.nombre">
+          <mat-error *ngIf="signupForm.controls.nombre.invalid">{{ mostrarError('nombre') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Clave de acceso</mat-label>
+            <input matInput [formControl]="signupForm.controls.clave" [type]="ocultaClave ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="ocultaClave = !ocultaClave" [attr.aria-label]="'Ocultar clave'" [attr.aria-pressed]="ocultaClave">
+                <mat-icon>{{ocultaClave ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signupForm.controls.clave.invalid">{{ mostrarError('clave') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Repita la Clave</mat-label>
+            <input matInput [formControl]="signupForm.controls.confirma" [type]="ocultaConfirma ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="ocultaConfirma = !ocultaConfirma" [attr.aria-label]="'Ocultar clave'" [attr.aria-pressed]="ocultaConfirma">
+                <mat-icon>{{ocultaConfirma ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signupForm.controls.confirma.invalid">{{ mostrarError('clave') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Teléfono de contacto</mat-label>
+            <input type="text" matInput placeholder="Ingrese un teléfono de contacto" [formControl]="signupForm.controls.telefono">
+        </mat-form-field>
+        <div class="fldArchivo">
+            <mat-label>Foto de perfil</mat-label>
+            <br>
+            <input type="file" [formControl]="signupForm.controls.foto">
+        </div>
+    <button mat-raised-button color="primary" class="btnSignup">Registrarme</button>
+    </div>
+</form>

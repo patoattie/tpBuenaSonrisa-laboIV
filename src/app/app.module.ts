@@ -19,12 +19,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { IngresoComponent } from './paginas/ingreso/ingreso.component';
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
+import { SignupComponent } from './componentes/signup/signup.component';
+import { RegistroComponent } from './paginas/registro/registro.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -36,7 +39,9 @@ export function tokenGetter() {
     LoginComponent,
     IngresoComponent,
     InicioComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    SignupComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +64,8 @@ export function tokenGetter() {
     MatSnackBarModule,
     MatToolbarModule,
     MatCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

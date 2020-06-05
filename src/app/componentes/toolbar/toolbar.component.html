@@ -10,7 +10,7 @@
 
     <div class="pc">
         <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/login']">Ingresar</button>
-        <button mat-stroked-button *ngIf="!usuarioLogueado()">Registrarse</button>
+        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">Registrarse</button>
     </div>
 
     <div class="celu">
@@ -22,7 +22,10 @@
             <button mat-menu-item *ngIf="!usuarioLogueado()" [routerLink]="['/login']">
                 <span>Ingresar</span>
             </button>
-            <button mat-menu-item *ngIf="!usuarioLogueado()">
+
+            <mat-divider *ngIf="!usuarioLogueado()"></mat-divider>
+
+            <button mat-menu-item *ngIf="!usuarioLogueado()" [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">
                 <span>Registrarse</span>
             </button>
         </mat-menu>

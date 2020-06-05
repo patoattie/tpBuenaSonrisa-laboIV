@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Usuario } from '../clases/usuario';
+import { TipoUsuario } from '../enums/tipo-usuario.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -29,20 +30,21 @@ export class UsuariosService {
     return this.afs.collection<Usuario>('usuarios').valueChanges();
   }
 
-  public alta(usuario: Usuario, clave: string) {
-    if (usuario && clave) {
-      this.auth.create(usuario.email, clave)
-      .then(user => {
-        usuario.providerId = user.user.providerId;
-        usuario.uid = user.user.uid;
+  public alta(usuario: Usuario, clave: string): Promise<void> {
+    return this.auth.create(usuario.email, clave)
+    .then(user => {
+      usuario.providerId = user.user.providerId;
+      usuario.uid = user.user.uid;
 
-        user.user.updateProfile({
-          displayName: usuario.displayName
-        });
+      user.user.updateProfile({
+        displayName: usuario.displayName
+      });
 
-        this.afs.doc<Usuario>(`usuarios/${user.user.uid}`).set(usuario, {merge: true});
-      })
-      .catch(e => console.log(e));
-    }
+      this.afs.doc<Usuario>(`usuarios/${user.user.uid}`).set(usuario, {merge: true});
+    });
+  }
+
+  public getTipoCliente(): TipoUsuario {
+    return TipoUsuario.CLIENTE;
   }
 }
