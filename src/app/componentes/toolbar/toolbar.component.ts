@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthService } from '../../servicios/auth.service';
+import { UsuariosService } from '../../servicios/usuarios.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +11,7 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private auth: AuthService
+    private usuarios: UsuariosService
   ) { }
 
   ngOnInit(): void { }
@@ -27,6 +27,6 @@ export class ToolbarComponent implements OnInit {
   }
 
   public usuarioLogueado(): boolean {
-    return this.auth.usuarioValido();
+    return this.usuarios.usuarioValido();
   }
 }

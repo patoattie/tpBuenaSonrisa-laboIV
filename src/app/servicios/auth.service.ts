@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  // private errorEvent = new Subject<string>();
   private token: string;
 
   constructor(
@@ -15,21 +14,15 @@ export class AuthService {
     private jwt: JwtHelperService
   ) {
     auth.idToken
-    // .subscribe(token => localStorage.setItem('token', token));
     .subscribe(tokenUsuario => this.token = tokenUsuario);
-
-    /*auth.user
-    .subscribe(usuario => localStorage.setItem('usuario', JSON.stringify(usuario)));*/
   }
 
-  public login(correo: string, clave: string) {
+  public login(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
     return this.auth.signInWithEmailAndPassword(correo, clave);
-    /*.then(usuario => console.log(usuario))
-    .catch(e => this.errorEvent.next(e.code));*/
   }
 
-  public logout() {
-    this.auth.signOut();
+  public logout(): Promise<void> {
+    return this.auth.signOut();
   }
 
   public usuarioValido(): boolean {
@@ -48,11 +41,7 @@ export class AuthService {
     return this.auth.user;
   }
 
-  /*private getToken(): string {
-    return localStorage.getItem('token');
+  public create(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
+    return this.auth.createUserWithEmailAndPassword(correo, clave);
   }
-
-  public getError(): Observable<string> {
-    return this.errorEvent.asObservable();
-  }*/
 }

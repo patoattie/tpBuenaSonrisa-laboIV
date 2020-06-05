@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../servicios/auth.service';
 import { Login } from '../../clases/login';
 import { ToastService } from '../../servicios/toast.service';
+import { UsuariosService } from '../../servicios/usuarios.service';
 
 @Component({
   selector: 'app-ingreso',
@@ -12,7 +12,7 @@ export class IngresoComponent implements OnInit {
   private usuario = new Login();
 
   constructor(
-    private auth: AuthService,
+    private usuarios: UsuariosService,
     private toast: ToastService
   ) {
     this.usuario.correo = 'admin@admin.com';
@@ -24,7 +24,7 @@ export class IngresoComponent implements OnInit {
 
   public ingresar() {
     // console.log(this.usuario);
-    this.auth.login(this.usuario.correo, this.usuario.clave)
+    this.usuarios.ingresar(this.usuario.correo, this.usuario.clave)
     // .then(user => this.toast.mostrarOk('Hola '.concat(user.user.email)))
     .catch(error => this.mostrarError(error.code));
   }
@@ -33,12 +33,12 @@ export class IngresoComponent implements OnInit {
     return this.usuario;
   }
 
-  public salir() {
-    this.auth.logout();
+  public salir(): void {
+    this.usuarios.salir();
   }
 
   public estaLogueado(): boolean {
-    return this.auth.usuarioValido();
+    return this.usuarios.usuarioValido();
   }
 
   private mostrarError(error: string): void {
