@@ -7,6 +7,7 @@ import { Usuario } from '../clases/usuario';
 import { TipoUsuario } from '../enums/tipo-usuario.enum';
 import { DatePipe } from '@angular/common';
 import * as firebase from 'firebase/app';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -112,5 +113,10 @@ export class UsuariosService {
 
   public getUsuario(): Usuario {
     return this.usuario;
+  }
+
+  public adminCrearUser() {
+    const otra = firebase.initializeApp(environment.firebaseConfig);
+    // otra.auth().createUserWithEmailAndPassword()
   }
 }
