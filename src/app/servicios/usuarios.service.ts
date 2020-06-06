@@ -7,7 +7,7 @@ import { Usuario } from '../clases/usuario';
 import { TipoUsuario } from '../enums/tipo-usuario.enum';
 import { DatePipe } from '@angular/common';
 import * as firebase from 'firebase/app';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
