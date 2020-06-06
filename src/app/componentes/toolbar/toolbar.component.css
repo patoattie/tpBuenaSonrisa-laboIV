@@ -15,9 +15,10 @@
   border-radius: 50%;
 }
 
-mat-label {
+.lblUsuario {
   font-weight: bold;
   background-color: wheat;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 600px) {

@@ -38,14 +38,25 @@ export class ToolbarComponent implements OnInit {
     const usuario = this.usuarios.getUsuario();
     let retorno = '../../../assets/avatar.png';
 
-    if (this.usuarios.getUsuario() && this.usuarios.getUsuario().photoURL.length > 0) {
-      retorno = this.usuarios.getUsuario().photoURL;
+    if (usuario && usuario.photoURL.length > 0) {
+      retorno = usuario.photoURL;
     }
 
     return retorno;
   }
 
   public getNombre(): string {
+    const usuario = this.usuarios.getUsuario();
+    let retorno = 'NN';
+
+    if (usuario) {
+      if (usuario.displayName.length > 0) {
+        retorno = usuario.displayName;
+      } else {
+        retorno = usuario.email;
+      }
+    }
+
     return this.usuarios.getUsuario() ? this.usuarios.getUsuario().displayName : '';
   }
 
