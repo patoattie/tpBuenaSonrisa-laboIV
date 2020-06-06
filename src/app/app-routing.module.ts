@@ -1,39 +1,47 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AngularFireAuthGuard, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { IngresoComponent } from './paginas/ingreso/ingreso.component';
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { PrincipalComponent } from './paginas/principal/principal.component';
-import { AuthGuard } from './guards/auth.guard';
-import { InnerPagesGuard } from './guards/inner-pages.guard';
 
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['inicio']);
+const redirectLoggedInToItems = () => redirectLoggedInTo(['principal']);
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'inicio'
-  },
-  {
-    path: 'login',
+    path: 'ingreso',
     component: IngresoComponent,
-    canActivate: [InnerPagesGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems }
   },
   {
     path: 'inicio',
     component: InicioComponent,
-    canActivate: [InnerPagesGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems }
   },
   {
     path: 'registro/:tipo',
     component: RegistroComponent,
-    canActivate: [InnerPagesGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems }
   },
   {
     path: 'principal',
     component: PrincipalComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
+  {
+    path: '',
+    /*pathMatch: 'full',
+    redirectTo: 'inicio'*/
+    component: IngresoComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToItems }
+  }
 ];
 
 @NgModule({

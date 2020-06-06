@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { UsuariosService } from '../../servicios/usuarios.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private usuarios: UsuariosService
+    private usuarios: UsuariosService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { }
@@ -62,5 +64,6 @@ export class ToolbarComponent implements OnInit {
 
   public salir(): void {
     this.usuarios.salir();
+    // .then(() => this.router.navigate(['inicio']));
   }
 }

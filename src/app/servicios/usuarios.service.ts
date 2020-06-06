@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -17,13 +18,17 @@ export class UsuariosService {
     private auth: AuthService,
     private afs: AngularFirestore,
     private pipe: DatePipe,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private router: Router
   ) {
     auth.getUsuario()
     .subscribe(user => {
       if (user) {
+        this.router.navigate(['principal']);
         this.traerUno(user.uid)
         .subscribe(unUsuario => this.usuario = unUsuario);
+      } else {
+        this.router.navigate(['inicio']);
       }
     });
   }

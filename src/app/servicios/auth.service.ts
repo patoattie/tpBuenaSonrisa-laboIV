@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   public getUsuario(): Observable<firebase.User> {
-    return this.auth.user;
+    return this.auth.authState;
   }
 
   public create(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
