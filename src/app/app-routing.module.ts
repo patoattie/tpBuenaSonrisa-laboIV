@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IngresoComponent } from './paginas/ingreso/ingreso.component';
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
+import { PrincipalComponent } from './paginas/principal/principal.component';
+import { AuthGuard } from './guards/auth.guard';
+import { InnerPagesGuard } from './guards/inner-pages.guard';
 
 
 const routes: Routes = [
@@ -13,16 +16,24 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: IngresoComponent
+    component: IngresoComponent,
+    canActivate: [InnerPagesGuard]
   },
   {
     path: 'inicio',
-    component: InicioComponent
+    component: InicioComponent,
+    canActivate: [InnerPagesGuard]
   },
   {
     path: 'registro/:tipo',
-    component: RegistroComponent
-  }
+    component: RegistroComponent,
+    canActivate: [InnerPagesGuard]
+  },
+  {
+    path: 'principal',
+    component: PrincipalComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

@@ -30,6 +30,7 @@ import { InicioComponent } from './paginas/inicio/inicio.component';
 import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
 import { SignupComponent } from './componentes/signup/signup.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
+import { PrincipalComponent } from './paginas/principal/principal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -43,7 +44,8 @@ export function tokenGetter() {
     InicioComponent,
     ToolbarComponent,
     SignupComponent,
-    RegistroComponent
+    RegistroComponent,
+    PrincipalComponent
   ],
   imports: [
     BrowserModule,
