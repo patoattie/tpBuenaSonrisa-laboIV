@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Usuario } from '../../clases/usuario';
 import { ToastService } from '../../servicios/toast.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
@@ -19,7 +20,8 @@ export class RegistroComponent implements OnInit {
   constructor(
     private usuarios: UsuariosService,
     private toast: ToastService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.tipo = TipoUsuario[this.route.snapshot.paramMap.get('tipo')];
   }
@@ -29,7 +31,10 @@ export class RegistroComponent implements OnInit {
 
   public registrar(): void {
     this.usuarios.alta(this.usuario, this.clave, this.foto)
-    .then(() => this.toast.mostrarOk('Registro OK'))
+    .then(() => {
+      this.toast.mostrarOk('Registro OK');
+      this.router.navigate(['principal']);
+    })
     .catch(error => this.mostrarError(error.code));
   }
 
@@ -57,13 +62,5 @@ export class RegistroComponent implements OnInit {
       default:
         this.toast.mostrarError();
     }
-  }
-
-  public salir(): void {
-    this.usuarios.salir();
-  }
-
-  public estaLogueado(): boolean {
-    return this.usuarios.usuarioValido();
   }
 }

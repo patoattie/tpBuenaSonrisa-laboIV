@@ -1,4 +1,3 @@
-<input type="button" value="Salir" (click)="salir()" *ngIf="estaLogueado()">
 <h2>Registro</h2>
 <h4>Por favor ingrese sus datos</h4>
 <app-signup [usuario]="getUsuario()" [tipo]="getTipo()" (claveEvent)="setClave($event)" (fotoEvent)="setFoto($event)" (registrarEvent)="registrar()"></app-signup>

@@ -14,7 +14,9 @@ export class AuthService {
     private jwt: JwtHelperService
   ) {
     auth.idToken
-    .subscribe(tokenUsuario => this.token = tokenUsuario);
+    .subscribe(tokenUsuario => {
+      this.token = tokenUsuario;
+    });
   }
 
   public login(correo: string, clave: string): Promise<firebase.auth.UserCredential> {

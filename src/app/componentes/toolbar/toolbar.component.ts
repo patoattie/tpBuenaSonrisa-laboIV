@@ -33,4 +33,23 @@ export class ToolbarComponent implements OnInit {
   public getTipoCliente() {
     return this.usuarios.getTipoCliente();
   }
+
+  public getImagen(): string {
+    const usuario = this.usuarios.getUsuario();
+    let retorno = '../../../assets/avatar.png';
+
+    if (this.usuarios.getUsuario() && this.usuarios.getUsuario().photoURL.length > 0) {
+      retorno = this.usuarios.getUsuario().photoURL;
+    }
+
+    return retorno;
+  }
+
+  public getNombre(): string {
+    return this.usuarios.getUsuario() ? this.usuarios.getUsuario().displayName : '';
+  }
+
+  public salir(): void {
+    this.usuarios.salir();
+  }
 }

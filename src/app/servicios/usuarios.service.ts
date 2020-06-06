@@ -11,13 +11,22 @@ import * as firebase from 'firebase/app';
   providedIn: 'root'
 })
 export class UsuariosService {
+  private usuario: Usuario;
 
   constructor(
     private auth: AuthService,
     private afs: AngularFirestore,
     private pipe: DatePipe,
     private storage: AngularFireStorage
-  ) { }
+  ) {
+    auth.getUsuario()
+    .subscribe(user => {
+      if (user) {
+        this.traerUno(user.uid)
+        .subscribe(unUsuario => this.usuario = unUsuario);
+      }
+    });
+  }
 
   public ingresar(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
     return this.auth.login(correo, clave);
@@ -33,6 +42,10 @@ export class UsuariosService {
 
   public traerTodos() {
     return this.afs.collection<Usuario>('usuarios').valueChanges();
+  }
+
+  public traerUno(uid: string) {
+    return this.afs.doc<Usuario>(`usuarios/${uid}`).valueChanges();
   }
 
   public alta(usuario: Usuario, clave: string, foto: File): Promise<void> {
@@ -90,5 +103,9 @@ export class UsuariosService {
 
   public getTipoCliente(): TipoUsuario {
     return TipoUsuario.CLIENTE;
+  }
+
+  public getUsuario(): Usuario {
+    return this.usuario;
   }
 }

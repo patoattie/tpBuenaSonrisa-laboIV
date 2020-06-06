@@ -14,11 +14,11 @@
     </div>
 
     <div class="celu">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button mat-icon-button [matMenuTriggerFor]="menuInicio" aria-label="Example icon-button with a menu">
             <mat-icon>more_vert</mat-icon>
         </button>
 
-        <mat-menu #menu="matMenu">
+        <!-- <mat-menu #menu="matMenu">
             <button mat-menu-item *ngIf="!usuarioLogueado()" [routerLink]="['/login']">
                 <span>Ingresar</span>
             </button>
@@ -28,6 +28,41 @@
             <button mat-menu-item *ngIf="!usuarioLogueado()" [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">
                 <span>Registrarse</span>
             </button>
+
+
+            <mat-label mat-menu-item *ngIf="usuarioLogueado()">{{ getNombre() }}</mat-label>
+
+            <mat-divider *ngIf="usuarioLogueado()"></mat-divider>
+
+            <button mat-menu-item *ngIf="usuarioLogueado()" (click)="salir()">
+                <span>Salir</span>
+            </button>
+        </mat-menu> -->
+
+        <mat-menu #menuInicio="matMenu">
+            <button mat-menu-item [routerLink]="['/login']">
+                <span>Ingresar</span>
+            </button>
+
+            <mat-divider *ngIf="!usuarioLogueado()"></mat-divider>
+
+            <button mat-menu-item [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">
+                <span>Registrarse</span>
+            </button>
+        </mat-menu>
+
+        <mat-menu #menuUsuario="matMenu">
+            <mat-label mat-menu-item>{{ getNombre() }}</mat-label>
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item (click)="salir()">
+                <span>Salir</span>
+            </button>
         </mat-menu>
     </div>
+
+    <!-- <button mat-fab color="primary" *ngIf="usuarioLogueado()"> -->
+        <img [matMenuTriggerFor]="menuUsuario" *ngIf="usuarioLogueado() && getImagen()" [src]="getImagen()" alt="Avatar" class="avatar">
+    <!-- </button> -->
 </mat-toolbar>

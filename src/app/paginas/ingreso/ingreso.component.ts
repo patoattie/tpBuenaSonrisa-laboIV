@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Login } from '../../clases/login';
 import { ToastService } from '../../servicios/toast.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
@@ -13,10 +14,13 @@ export class IngresoComponent implements OnInit {
 
   constructor(
     private usuarios: UsuariosService,
-    private toast: ToastService
+    private toast: ToastService,
+    private router: Router
   ) {
     this.usuario.correo = 'admin@admin.com';
     this.usuario.clave = '11111111';
+    // this.usuario.correo = 'pepe@pepe.com';
+    // this.usuario.clave = '123123';
   }
 
   ngOnInit(): void {
@@ -27,20 +31,13 @@ export class IngresoComponent implements OnInit {
     this.usuarios.ingresar(this.usuario.correo, this.usuario.clave)
     .then(user => {
       this.toast.mostrarOk('Hola '.concat(user.user.displayName));
+      // this.router.navigate(['principal']);
     })
     .catch(error => this.mostrarError(error.code));
   }
 
   public getUsuario(): Login {
     return this.usuario;
-  }
-
-  public salir(): void {
-    this.usuarios.salir();
-  }
-
-  public estaLogueado(): boolean {
-    return this.usuarios.usuarioValido();
   }
 
   private mostrarError(error: string): void {
