@@ -14,8 +14,8 @@ export class SignupComponent implements OnInit {
   @Output() registrarEvent = new EventEmitter<Usuario>();
   @Output() claveEvent = new EventEmitter<string>();
   @Output() fotoEvent = new EventEmitter<File>();
-  public ocultaClave = true;
-  public ocultaConfirma = true;
+  private ocultaClave = true;
+  private ocultaConfirma = true;
   public signupForm: FormGroup;
   public errConfirmaClave = false;
   private fotoUsuario: File = null;
@@ -101,5 +101,21 @@ export class SignupComponent implements OnInit {
 
   public getCaptcha(): string {
     return this.captcha;
+  }
+
+  public setOcultaClave(valor: boolean): void {
+    this.ocultaClave = valor;
+  }
+
+  public getOcultaClave(): boolean {
+    return this.ocultaClave;
+  }
+
+  public setOcultaConfirma(valor: boolean): void {
+    this.ocultaConfirma = valor;
+  }
+
+  public getOcultaConfirma(): boolean {
+    return this.ocultaConfirma;
   }
 }

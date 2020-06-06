@@ -10,7 +10,7 @@ import { Login } from '../../clases/login';
 export class LoginComponent implements OnInit {
   @Input() login: Login;
   @Output() ingresarEvent = new EventEmitter<Login>();
-  public ocultaClave = true;
+  private ocultaClave = true;
   public loginForm: FormGroup;
 
   constructor(
@@ -57,5 +57,13 @@ export class LoginComponent implements OnInit {
     }
 
     return retorno;
+  }
+
+  public setOcultaClave(valor: boolean): void {
+    this.ocultaClave = valor;
+  }
+
+  public getOcultaClave(): boolean {
+    return this.ocultaClave;
   }
 }

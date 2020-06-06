@@ -12,18 +12,18 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Clave de acceso</mat-label>
-            <input matInput [formControl]="signupForm.controls.clave" [type]="ocultaClave ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="ocultaClave = !ocultaClave" [attr.aria-label]="'Ocultar clave'" [attr.aria-pressed]="ocultaClave">
-                <mat-icon>{{ocultaClave ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
+            <input matInput [formControl]="signupForm.controls.clave" [type]="getOcultaClave() ? 'password' : 'text'">
+            <a mat-icon-button matSuffix (click)="setOcultaClave(!getOcultaClave())">
+                <mat-icon>{{getOcultaClave() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </a>
             <mat-error *ngIf="signupForm.controls.clave.invalid">{{ mostrarError('clave') }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Repita la Clave</mat-label>
-            <input matInput [formControl]="signupForm.controls.confirma" [type]="ocultaConfirma ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="ocultaConfirma = !ocultaConfirma" [attr.aria-label]="'Ocultar clave'" [attr.aria-pressed]="ocultaConfirma">
-                <mat-icon>{{ocultaConfirma ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
+            <input matInput [formControl]="signupForm.controls.confirma" [type]="getOcultaConfirma() ? 'password' : 'text'">
+            <a mat-icon-button matSuffix (click)="setOcultaConfirma(!getOcultaConfirma())">
+                <mat-icon>{{getOcultaConfirma() ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </a>
             <mat-error *ngIf="signupForm.controls.confirma.invalid">{{ mostrarError('clave') }}</mat-error>
         </mat-form-field>
         <mat-error *ngIf="errConfirmaClave">La confirmación de la clave no coincide con la clave ingresada</mat-error>
