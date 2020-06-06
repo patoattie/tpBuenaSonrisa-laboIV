@@ -14,6 +14,7 @@ export class RegistroComponent implements OnInit {
   private usuario = new Usuario();
   private tipo: TipoUsuario;
   private clave: string;
+  private foto: File;
 
   constructor(
     private usuarios: UsuariosService,
@@ -27,7 +28,8 @@ export class RegistroComponent implements OnInit {
   }
 
   public registrar(): void {
-    this.usuarios.alta(this.usuario, this.clave)
+    this.usuarios.alta(this.usuario, this.clave, this.foto)
+    .then(() => this.toast.mostrarOk('Registro OK'))
     .catch(error => this.mostrarError(error.code));
   }
 
@@ -43,16 +45,14 @@ export class RegistroComponent implements OnInit {
     this.clave = clave;
   }
 
+  public setFoto(unaFoto: File): void {
+    this.foto = unaFoto;
+  }
+
   private mostrarError(error: string): void {
     switch (error) {
-      case 'auth/wrong-password':
-        this.toast.mostrarError('Usuario o contraseña invalidos');
-        break;
-      case 'auth/user-not-found':
-        this.toast.mostrarError('Usuario o contraseña invalidos');
-        break;
-      case 'auth/too-many-requests':
-        this.toast.mostrarError('Usuario o contraseña invalidos');
+      case 'auth/email-already-in-use':
+        this.toast.mostrarError('Usuario ya registrado');
         break;
       default:
         this.toast.mostrarError();

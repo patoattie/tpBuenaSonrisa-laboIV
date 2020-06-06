@@ -13,10 +13,13 @@ export class SignupComponent implements OnInit {
   @Input() tipo: TipoUsuario;
   @Output() registrarEvent = new EventEmitter<Usuario>();
   @Output() claveEvent = new EventEmitter<string>();
+  @Output() fotoEvent = new EventEmitter<File>();
   public ocultaClave = true;
   public ocultaConfirma = true;
   public signupForm: FormGroup;
   public errConfirmaClave = false;
+  private fotoUsuario: File = null;
+  private captcha: string;
 
   constructor(
     private fb: FormBuilder
@@ -24,12 +27,12 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
-      clave: ['', [Validators.required, Validators.minLength(6)]],
-      confirma: ['', [Validators.required, Validators.minLength(6)]],
-      telefono: [''],
-      foto: ['']
+      correo: ['', Validators.compose([Validators.required, Validators.email])],
+      nombre: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
+      clave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      confirma: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      telefono: ['', Validators.compose([])],
+      foto: ['', Validators.compose([])]
     });
   }
 
@@ -42,8 +45,10 @@ export class SignupComponent implements OnInit {
         this.usuario.email = this.signupForm.controls.correo.value;
         this.usuario.displayName = this.signupForm.controls.nombre.value;
         this.usuario.phoneNumber = this.signupForm.controls.telefono.value;
+        this.usuario.photoURL = '';
         this.usuario.tipo = this.tipo;
         this.claveEvent.emit(this.signupForm.controls.clave.value);
+        this.fotoEvent.emit(this.fotoUsuario);
         this.registrarEvent.emit(this.usuario);
       }
     }
@@ -83,5 +88,18 @@ export class SignupComponent implements OnInit {
     }
 
     return retorno;
+  }
+
+  public manejoFoto(archivos: FileList): void {
+    this.fotoUsuario = archivos.item(0);
+  }
+
+  public setRecaptcha(captchaResponse: string): void {
+    // console.log('Respuesta: ', captchaResponse);
+    this.captcha = captchaResponse;
+  }
+
+  public getCaptcha(): string {
+    return this.captcha;
   }
 }

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Usuario } from '../clases/usuario';
 import { TipoUsuario } from '../enums/tipo-usuario.enum';
+import { DatePipe } from '@angular/common';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,9 @@ export class UsuariosService {
 
   constructor(
     private auth: AuthService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private pipe: DatePipe,
+    private storage: AngularFireStorage
   ) { }
 
   public ingresar(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
@@ -30,7 +35,7 @@ export class UsuariosService {
     return this.afs.collection<Usuario>('usuarios').valueChanges();
   }
 
-  public alta(usuario: Usuario, clave: string): Promise<void> {
+  public alta(usuario: Usuario, clave: string, foto: File): Promise<void> {
     return this.auth.create(usuario.email, clave)
     .then(user => {
       usuario.providerId = user.user.providerId;
@@ -40,7 +45,46 @@ export class UsuariosService {
         displayName: usuario.displayName
       });
 
-      this.afs.doc<Usuario>(`usuarios/${user.user.uid}`).set(usuario, {merge: true});
+      if (foto)
+      {
+        const metadata = {
+          contentType: 'image/png',
+          customMetadata: {
+            usuario: usuario.email,
+            id: user.user.uid
+          }
+        };
+
+        const uploadTask = this.storage.upload(
+          'avatares/'.concat(this.pipe.transform(new Date(), 'yyyyMMddHHmmssSSS')).concat(foto.name),
+          foto,
+          metadata
+        );
+
+        uploadTask.task.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+          (snapshot) => {
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+          },
+          (E) => {},
+          () => {
+            uploadTask.task.snapshot.ref.getDownloadURL()
+            .then((downloadURL) => {
+              console.log('File available at', downloadURL);
+
+              // user.user.photoURL = downloadURL;
+              user.user.updateProfile({
+                photoURL: downloadURL
+              });
+
+              usuario.photoURL = downloadURL;
+              this.afs.doc<Usuario>(`usuarios/${user.user.uid}`).set(Object.assign({}, usuario), {merge: true});
+            });
+          });
+      }
+
+      this.afs.doc<Usuario>(`usuarios/${user.user.uid}`).set(Object.assign({}, usuario), {merge: true});
     });
   }
 

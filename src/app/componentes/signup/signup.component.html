@@ -26,6 +26,7 @@
             </button>
             <mat-error *ngIf="signupForm.controls.confirma.invalid">{{ mostrarError('clave') }}</mat-error>
         </mat-form-field>
+        <mat-error *ngIf="errConfirmaClave">La confirmación de la clave no coincide con la clave ingresada</mat-error>
         <mat-form-field appearance="fill">
             <mat-label>Teléfono de contacto</mat-label>
             <input type="text" matInput placeholder="Ingrese un teléfono de contacto" [formControl]="signupForm.controls.telefono">
@@ -33,8 +34,9 @@
         <div class="fldArchivo">
             <mat-label>Foto de perfil</mat-label>
             <br>
-            <input type="file" [formControl]="signupForm.controls.foto">
+            <input type="file" (change)="manejoFoto($event.target.files)" [formControl]="signupForm.controls.foto">
         </div>
-    <button mat-raised-button color="primary" class="btnSignup">Registrarme</button>
+        <re-captcha (resolved)="setRecaptcha($event)"></re-captcha>
+        <button [disabled]="!getCaptcha()" mat-raised-button color="primary" class="btnSignup">Registrarme</button>
     </div>
 </form>
