@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
+import * as firebase from 'firebase/app';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private token: string;
+  private auth2 = firebase.initializeApp(environment.firebaseConfig);
 
   constructor(
     private auth: AngularFireAuth,
@@ -25,6 +28,10 @@ export class AuthService {
 
   public logout(): Promise<void> {
     return this.auth.signOut();
+  }
+
+  public logoutLogueado(): Promise<void> {
+    return this.auth2.auth().signOut();
   }
 
   public usuarioValido(): boolean {
@@ -45,5 +52,9 @@ export class AuthService {
 
   public create(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
     return this.auth.createUserWithEmailAndPassword(correo, clave);
+  }
+
+  public createLogueado(correo: string, clave: string): Promise<firebase.auth.UserCredential> {
+    return this.auth2.auth().createUserWithEmailAndPassword(correo, clave);
   }
 }
