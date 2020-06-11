@@ -35,8 +35,16 @@
 
             <mat-divider *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()"></mat-divider>
 
-            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoRecepcionista()))">
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoEspecialista().toString()))">
+                <span>Alta Especialista</span>
+            </button>
+
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoRecepcionista().toString()))">
                 <span>Alta Recepcionista</span>
+            </button>
+
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoCliente().toString()))">
+                <span>Alta Cliente</span>
             </button>
 
             <mat-divider></mat-divider>

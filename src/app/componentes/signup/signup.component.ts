@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoUsuario } from '../../enums/tipo-usuario.enum';
+import { Especialidad } from '../../enums/especialidad.enum';
 import { Usuario } from '../../clases/usuario';
 
 @Component({
@@ -15,6 +16,7 @@ export class SignupComponent implements OnInit {
   @Output() registrarEvent = new EventEmitter<Usuario>();
   @Output() claveEvent = new EventEmitter<string>();
   @Output() fotoEvent = new EventEmitter<File>();
+  public enumEsp = Object.values(Especialidad).filter(unTipo => typeof unTipo === 'string');
   private ocultaClave = true;
   private ocultaConfirma = true;
   public signupForm: FormGroup;
@@ -33,7 +35,8 @@ export class SignupComponent implements OnInit {
       clave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       confirma: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       telefono: ['', Validators.compose([])],
-      foto: ['', Validators.compose([])]
+      foto: ['', Validators.compose([])],
+      especialidad: ['', this.esEspecialista() ? Validators.compose([Validators.required]) : Validators.compose([])]
     });
   }
 
@@ -46,6 +49,7 @@ export class SignupComponent implements OnInit {
         this.usuario.email = this.signupForm.controls.correo.value;
         this.usuario.displayName = this.signupForm.controls.nombre.value;
         this.usuario.phoneNumber = this.signupForm.controls.telefono.value;
+        this.usuario.especialidad = this.signupForm.controls.especialidad.value;
         this.usuario.photoURL = '';
         this.usuario.tipo = this.tipo;
         this.claveEvent.emit(this.signupForm.controls.clave.value);
@@ -84,6 +88,13 @@ export class SignupComponent implements OnInit {
           retorno = 'El nombre y apellido ingresado debe contener al menos 2 caracteres';
         } else {
           retorno = 'Error inesperado con el nombre y apellido';
+        }
+        break;
+      case 'especialidad':
+        if (this.signupForm.controls.nombre.hasError('required')) {
+          retorno = 'Debe ingresar una especialidad';
+        } else {
+          retorno = 'Error inesperado con la especialidad';
         }
         break;
     }
@@ -130,5 +141,9 @@ export class SignupComponent implements OnInit {
 
   public limpiarForm(): void {
     this.signupForm.reset();
+  }
+
+  public esEspecialista(): boolean {
+    return this.tipo === TipoUsuario[TipoUsuario.ESPECIALISTA];
   }
 }

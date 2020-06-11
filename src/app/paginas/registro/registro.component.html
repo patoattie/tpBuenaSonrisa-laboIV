@@ -1,4 +1,11 @@
 <h2>Registro</h2>
 <h4 *ngIf="!usuarioLogueado()">Por favor ingrese sus datos</h4>
-<h4 *ngIf="usuarioLogueado()">Por favor ingrese los datos del usuario</h4>
-<app-signup [usuario]="getUsuario()" [tipo]="getTipo()" [muestraCaptcha]="!usuarioLogueado()" (claveEvent)="setClave($event)" (fotoEvent)="setFoto($event)" (registrarEvent)="registrar()"></app-signup>
+<h4 *ngIf="usuarioLogueado()">Por favor ingrese los datos del {{ getTipo().toLowerCase() }}</h4>
+<app-signup
+    [usuario]="getUsuario()"
+    [tipo]="getTipo()"
+    [muestraCaptcha]="!usuarioLogueado()"
+    (claveEvent)="setClave($event)"
+    (fotoEvent)="setFoto($event)"
+    (registrarEvent)="registrar()">
+</app-signup>

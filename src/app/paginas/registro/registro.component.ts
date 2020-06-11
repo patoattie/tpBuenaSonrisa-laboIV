@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Usuario } from '../../clases/usuario';
 import { ToastService } from '../../servicios/toast.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
-import { ActivatedRoute } from '@angular/router';
 import { TipoUsuario } from '../../enums/tipo-usuario.enum';
 
 @Component({
@@ -23,6 +22,13 @@ export class RegistroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    // Me suscribo para obtener el valor del parámetro id cuando hay un cambio de parámetro sin cambiar la página.
+    this.router.events.subscribe(evento => {
+      if (evento instanceof NavigationEnd) {
+        this.tipo = TipoUsuario[this.route.snapshot.paramMap.get('tipo')];
+      }
+    });
+
     this.tipo = TipoUsuario[this.route.snapshot.paramMap.get('tipo')];
   }
 

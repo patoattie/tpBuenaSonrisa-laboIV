@@ -22,6 +22,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -70,7 +71,8 @@ export function tokenGetter() {
     MatCardModule,
     MatMenuModule,
     MatDividerModule,
-    RecaptchaModule
+    RecaptchaModule,
+    MatSelectModule
   ],
   providers: [
     DatePipe,
