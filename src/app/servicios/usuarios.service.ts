@@ -42,7 +42,7 @@ export class UsuariosService {
   }
 
   public usuarioValido(): boolean {
-    return this.auth.usuarioValido();
+    return this.auth.usuarioValido() && this.usuario !== null && this.usuario !== undefined;
   }
 
   public traerTodos() {
@@ -111,15 +111,31 @@ export class UsuariosService {
     return TipoUsuario.CLIENTE;
   }
 
+  public getTipoAdmin(): TipoUsuario {
+    return TipoUsuario.ADMIN;
+  }
+
+  public getTipoRecepcionista(): TipoUsuario {
+    return TipoUsuario.RECEPCIONISTA;
+  }
+
+  public getTipoEspecialista(): TipoUsuario {
+    return TipoUsuario.ESPECIALISTA;
+  }
+
   public getUsuario(): Usuario {
     return this.usuario;
+  }
+
+  public getTipo(): TipoUsuario {
+    return TipoUsuario[this.usuario.tipo];
   }
 
   public adminCrearUser(usuario: Usuario, clave: string, foto: File): Promise<void> {
     return this.auth.createLogueado(usuario.email, clave)
     .then(user => {
       this.procesarAlta(usuario, foto, user);
-      this.auth.logoutLogueado();
+      // this.auth.logoutLogueado();
     });
   }
 }

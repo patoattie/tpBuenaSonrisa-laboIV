@@ -24,9 +24,9 @@ const routes: Routes = [
   },
   {
     path: 'registro/:tipo',
-    component: RegistroComponent,
+    component: RegistroComponent/*,
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToItems }
+    data: { authGuardPipe: redirectLoggedInToItems }*/
   },
   {
     path: 'principal',

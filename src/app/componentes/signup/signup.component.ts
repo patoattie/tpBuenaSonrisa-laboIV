@@ -10,7 +10,7 @@ import { Usuario } from '../../clases/usuario';
 })
 export class SignupComponent implements OnInit {
   @Input() usuario: Usuario;
-  @Input() tipo: TipoUsuario;
+  @Input() tipo: string;
   @Output() registrarEvent = new EventEmitter<Usuario>();
   @Output() claveEvent = new EventEmitter<string>();
   @Output() fotoEvent = new EventEmitter<File>();

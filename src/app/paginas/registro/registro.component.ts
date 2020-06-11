@@ -13,7 +13,7 @@ import { TipoUsuario } from '../../enums/tipo-usuario.enum';
 })
 export class RegistroComponent implements OnInit {
   private usuario = new Usuario();
-  private tipo: TipoUsuario;
+  private tipo: string;
   private clave: string;
   private foto: File;
 
@@ -30,19 +30,32 @@ export class RegistroComponent implements OnInit {
   }
 
   public registrar(): void {
-    this.usuarios.alta(this.usuario, this.clave, this.foto)
-    .then(() => {
-      this.toast.mostrarOk('Registro OK');
-      // this.router.navigate(['principal']);
-    })
-    .catch(error => this.mostrarError(error.code));
+    if (this.verificarPermisos()) {
+      if (this.esAdmin()) {
+        this.usuarios.adminCrearUser(this.usuario, this.clave, this.foto)
+        .then(() => {
+          this.toast.mostrarOk('Registro OK');
+          // this.router.navigate(['principal']);
+        })
+        .catch(error => this.mostrarError(error.code));
+      } else {
+        this.usuarios.alta(this.usuario, this.clave, this.foto)
+        .then(() => {
+          this.toast.mostrarOk('Registro OK');
+          // this.router.navigate(['principal']);
+        })
+        .catch(error => this.mostrarError(error.code));
+      }
+    } else {
+      this.toast.mostrarError('No tiene los permisos requeridos para registrar el usuario');
+    }
   }
 
   public getUsuario(): Usuario {
     return this.usuario;
   }
 
-  public getTipo(): TipoUsuario {
+  public getTipo(): string {
     return this.tipo;
   }
 
@@ -62,5 +75,20 @@ export class RegistroComponent implements OnInit {
       default:
         this.toast.mostrarError();
     }
+  }
+
+  private verificarPermisos(): boolean {
+    let retorno = true;
+
+    if (this.tipo !== TipoUsuario[this.usuarios.getTipoCliente()]
+    && (!this.usuarios.usuarioValido() || this.usuarios.getTipo() !== this.usuarios.getTipoAdmin())) {
+      retorno = false;
+    }
+
+    return retorno;
+  }
+
+  private esAdmin(): boolean {
+    return this.usuarios.usuarioValido() && this.usuarios.getTipo() === this.usuarios.getTipoAdmin();
   }
 }

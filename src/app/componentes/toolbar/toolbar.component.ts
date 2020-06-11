@@ -36,6 +36,22 @@ export class ToolbarComponent implements OnInit {
     return this.usuarios.getTipoCliente();
   }
 
+  public getTipoAdmin() {
+    return this.usuarios.getTipoAdmin();
+  }
+
+  public getTipoRecepcionista() {
+    return this.usuarios.getTipoRecepcionista();
+  }
+
+  public getTipoEspecialista() {
+    return this.usuarios.getTipoEspecialista();
+  }
+
+  public getTipoUsuario() {
+    return this.usuarios.getTipo();
+  }
+
   public getImagen(): string {
     const usuario = this.usuarios.getUsuario();
     let retorno = '../../../assets/avatar.png';
@@ -65,5 +81,9 @@ export class ToolbarComponent implements OnInit {
   public salir(): void {
     this.usuarios.salir();
     // .then(() => this.router.navigate(['inicio']));
+  }
+
+  public navegar(ruta: string): void {
+    this.router.navigate([ruta]);
   }
 }

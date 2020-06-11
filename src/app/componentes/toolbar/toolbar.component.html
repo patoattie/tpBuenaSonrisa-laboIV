@@ -23,7 +23,7 @@
                 <span>Ingresar</span>
             </button>
 
-            <mat-divider *ngIf="!usuarioLogueado()"></mat-divider>
+            <mat-divider></mat-divider>
 
             <button mat-menu-item [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">
                 <span>Registrarse</span>
@@ -32,6 +32,12 @@
 
         <mat-menu #menuUsuario="matMenu">
             <mat-label class="lblUsuario" mat-menu-item>{{ getNombre() }}</mat-label>
+
+            <mat-divider *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()"></mat-divider>
+
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoRecepcionista()))">
+                <span>Alta Recepcionista</span>
+            </button>
 
             <mat-divider></mat-divider>
 
