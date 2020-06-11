@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
   private token: string;
-  private auth2 = firebase.initializeApp(environment.firebaseConfig);
+  private auth2 = firebase.initializeApp(environment.firebaseConfig, 'adminProject');
 
   constructor(
     private auth: AngularFireAuth,

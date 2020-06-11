@@ -36,11 +36,11 @@ const routes: Routes = [
   },
   {
     path: '',
-    /*pathMatch: 'full',
-    redirectTo: 'inicio'*/
-    component: IngresoComponent,
+    pathMatch: 'full',
+    redirectTo: 'inicio'
+    /*component: IngresoComponent,
     canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToItems }
+    data: { authGuardPipe: redirectLoggedInToItems }*/
   }
 ];
 

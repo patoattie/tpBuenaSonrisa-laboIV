@@ -36,7 +36,8 @@
             <br>
             <input type="file" (change)="manejoFoto($event.target.files)" [formControl]="signupForm.controls.foto">
         </div>
-        <re-captcha (resolved)="setRecaptcha($event)"></re-captcha>
+        <re-captcha *ngIf="muestraCaptcha" (resolved)="setRecaptcha($event)"></re-captcha>
         <button [disabled]="!getCaptcha()" mat-raised-button color="primary" class="btnSignup">Registrarme</button>
+        <button mat-raised-button class="btnClean" (click)="limpiarForm()">Limpiar</button>
     </div>
 </form>

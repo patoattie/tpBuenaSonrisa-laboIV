@@ -14,15 +14,22 @@ form {
     box-sizing: border-box;
   }
   
-  .btnSignup {
+  .btnSignup, .btnClean {
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
   }
   
-  .btnSignup:hover {
+  .btnSignup {
+    width: 75%;
+  }
+  
+  .btnClean {
+    width: 25%;
+  }
+  
+  .btnSignup:hover, .btnClean:hover {
     opacity: 0.8;
   }
   

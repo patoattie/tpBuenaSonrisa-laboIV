@@ -91,4 +91,8 @@ export class RegistroComponent implements OnInit {
   private esAdmin(): boolean {
     return this.usuarios.usuarioValido() && this.usuarios.getTipo() === this.usuarios.getTipoAdmin();
   }
+
+  public usuarioLogueado(): boolean {
+    return this.usuarios.usuarioValido();
+  }
 }

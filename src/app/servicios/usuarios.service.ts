@@ -135,7 +135,7 @@ export class UsuariosService {
     return this.auth.createLogueado(usuario.email, clave)
     .then(user => {
       this.procesarAlta(usuario, foto, user);
-      // this.auth.logoutLogueado();
+      this.auth.logoutLogueado();
     });
   }
 }

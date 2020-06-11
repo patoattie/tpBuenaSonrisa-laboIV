@@ -11,6 +11,7 @@ import { Usuario } from '../../clases/usuario';
 export class SignupComponent implements OnInit {
   @Input() usuario: Usuario;
   @Input() tipo: string;
+  @Input() muestraCaptcha: boolean;
   @Output() registrarEvent = new EventEmitter<Usuario>();
   @Output() claveEvent = new EventEmitter<string>();
   @Output() fotoEvent = new EventEmitter<File>();
@@ -100,7 +101,15 @@ export class SignupComponent implements OnInit {
   }
 
   public getCaptcha(): string {
-    return this.captcha;
+    let retorno: string;
+
+    if (this.muestraCaptcha) {
+      retorno = this.captcha;
+    } else {
+      retorno = 'OK';
+    }
+
+    return retorno;
   }
 
   public setOcultaClave(valor: boolean): void {
@@ -117,5 +126,9 @@ export class SignupComponent implements OnInit {
 
   public getOcultaConfirma(): boolean {
     return this.ocultaConfirma;
+  }
+
+  public limpiarForm(): void {
+    this.signupForm.reset();
   }
 }
