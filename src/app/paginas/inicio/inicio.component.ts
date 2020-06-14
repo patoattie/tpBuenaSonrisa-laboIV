@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuariosService } from '../../servicios/usuarios.service';
+import { NavegacionService } from '../../servicios/navegacion.service';
 
 @Component({
   selector: 'app-inicio',
@@ -8,11 +9,18 @@ import { UsuariosService } from '../../servicios/usuarios.service';
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private usuarios: UsuariosService) { }
+  constructor(
+    private usuarios: UsuariosService,
+    private navega: NavegacionService
+  ) { }
 
   ngOnInit(): void { }
 
   public getTipoCliente() {
     return this.usuarios.getTipoCliente();
+  }
+
+  public navegar(ruta: string): void {
+    this.navega.navegar(ruta);
   }
 }

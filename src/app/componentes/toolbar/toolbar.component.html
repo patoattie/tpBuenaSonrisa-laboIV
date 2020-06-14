@@ -9,8 +9,8 @@
     <span class="example-fill-remaining-space"></span>
 
     <div class="pc">
-        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/ingreso']">Ingresar</button>
-        <button mat-stroked-button *ngIf="!usuarioLogueado()" [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">Registrarse</button>
+        <button mat-stroked-button *ngIf="!usuarioLogueado()" (click)="navegar('/ingreso')">Ingresar</button>
+        <button mat-stroked-button *ngIf="!usuarioLogueado()" (click)="navegar('/registro/'.concat(getTipoCliente().toString()))">Registrarse</button>
     </div>
 
     <div class="celu">
@@ -19,13 +19,13 @@
         </button>
 
         <mat-menu #menuInicio="matMenu">
-            <button mat-menu-item [routerLink]="['/ingreso']">
+            <button mat-menu-item (click)="navegar('/ingreso')">
                 <span>Ingresar</span>
             </button>
 
             <mat-divider></mat-divider>
 
-            <button mat-menu-item [routerLink]="['/registro/'.concat(getTipoCliente().toString())]">
+            <button mat-menu-item (click)="navegar('/registro/'.concat(getTipoCliente().toString()))">
                 <span>Registrarse</span>
             </button>
         </mat-menu>
