@@ -49,6 +49,10 @@ export class UsuariosService {
     return this.afs.collection<Usuario>('usuarios').valueChanges();
   }
 
+  /*public traerEspecialistas() {
+    return this.afs.collection<Usuario>('usuarios').ref.where('tipo', '==', TipoUsuario[TipoUsuario.ESPECIALISTA]).get();
+  }*/
+
   public traerUno(uid: string) {
     return this.afs.doc<Usuario>(`usuarios/${uid}`).valueChanges();
   }

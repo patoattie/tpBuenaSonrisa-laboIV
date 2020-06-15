@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./dias.component.css']
 })
 export class DiasComponent implements OnInit, OnDestroy {
-  private horario: Dia[];
+  private listaDias: Dia[];
   public columnas: string[] = ['dia', 'hhDesde', 'hhHasta'];
   private desuscribir = new Subject<void>();
   public muestraDetalle = false;
@@ -28,7 +28,7 @@ export class DiasComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.desuscribir))
     .subscribe(call => {
       if (call.length > 0) {
-        this.horario = call;
+        this.listaDias = call;
       } else {
         this.poblarDias();
       }
@@ -57,8 +57,8 @@ export class DiasComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getHorario(): Dia[] {
-    return this.horario;
+  public getDias(): Dia[] {
+    return this.listaDias;
   }
 
   public editarFila(unDia: Dia): void {

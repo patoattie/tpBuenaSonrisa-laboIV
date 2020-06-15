@@ -40,6 +40,7 @@ import { DiaComponent } from './componentes/dia/dia.component';
 import { NumHoraPipe } from './pipes/num-hora.pipe';
 import { ConsultoriosComponent } from './paginas/consultorios/consultorios.component';
 import { ConsultorioComponent } from './componentes/consultorio/consultorio.component';
+import { HorariosComponent } from './paginas/horarios/horarios.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -60,7 +61,8 @@ export function tokenGetter() {
     DiaComponent,
     NumHoraPipe,
     ConsultoriosComponent,
-    ConsultorioComponent
+    ConsultorioComponent,
+    HorariosComponent
   ],
   imports: [
     BrowserModule,

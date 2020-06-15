@@ -50,11 +50,15 @@
             <mat-divider *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()"></mat-divider>
 
             <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('dias')">
-                <span>Horarios</span>
+                <span>Días de atención</span>
             </button>
 
             <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('consultorios')">
                 <span>Consultorios</span>
+            </button>
+
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('horarios')">
+                <span>Horarios</span>
             </button>
 
             <mat-divider></mat-divider>

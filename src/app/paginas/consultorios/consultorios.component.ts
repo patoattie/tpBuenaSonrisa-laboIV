@@ -43,10 +43,6 @@ export class ConsultoriosComponent implements OnInit, OnDestroy {
     this.desuscribir.complete();
   }
 
-  /*public getListado(): Consultorio[] {
-    return this.listaConsultorios;
-  }*/
-
   public editarFila(unConsultorio: Consultorio): void {
     if (unConsultorio === null) {
       this.esNuevo = true;
