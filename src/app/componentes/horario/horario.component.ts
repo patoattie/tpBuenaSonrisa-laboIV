@@ -40,15 +40,15 @@ export class HorarioComponent implements OnInit {
       cantidad: [this.horario.turnosPorHora, Validators.compose([Validators.required])]
     });
 
-    if (this.especialista !== undefined) {
+    if (this.especialista) {
       this.horarioForm.controls.especialista.setValue(this.especialista.displayName);
     }
 
-    if (this.dia !== undefined) {
+    if (this.dia) {
       this.horarioForm.controls.dia.setValue(this.dia.dia);
     }
 
-    if (this.consultorio !== undefined) {
+    if (this.consultorio) {
       this.horarioForm.controls.consultorio.setValue(this.consultorio.numero);
     }
   }
@@ -59,11 +59,11 @@ export class HorarioComponent implements OnInit {
         this.errorEvent.emit('El horario desde debe ser anterior al horario hasta');
       } else {
         this.horario.consultorio = this.consultorios
-          .find(unCons => unCons.numero === this.horarioForm.controls.consultorio.value.numero).uid;
+          .find(unCons => unCons.numero === this.horarioForm.controls.consultorio.value).uid;
         this.horario.dia = this.dias
-          .find(unDia => unDia.dia === this.horarioForm.controls.dia.value.dia).uid;
+          .find(unDia => unDia.dia === this.horarioForm.controls.dia.value).uid;
         this.horario.especialista = this.especialistas
-          .find(unEsp => unEsp.displayName === this.horarioForm.controls.especialista.value.displayName).uid;
+          .find(unEsp => unEsp.displayName === this.horarioForm.controls.especialista.value).uid;
         this.horario.hhDesde = this.horarioForm.controls.desde.value;
         this.horario.hhHasta = this.horarioForm.controls.hasta.value;
         this.horario.turnosPorHora = this.horarioForm.controls.cantidad.value;

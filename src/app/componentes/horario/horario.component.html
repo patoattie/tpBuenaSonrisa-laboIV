@@ -3,21 +3,21 @@
         <mat-form-field appearance="fill">
             <mat-label>Especialista</mat-label>
             <mat-select [formControl]="horarioForm.controls.especialista">
-                <mat-option *ngFor="let unEsp of especialistas" [value]="unEsp">{{ unEsp.displayName }}</mat-option>
+                <mat-option *ngFor="let unEsp of especialistas" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>
             </mat-select>
             <mat-error *ngIf="horarioForm.controls.especialista.invalid">{{ mostrarError('especialista') }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Día de atención</mat-label>
             <mat-select [formControl]="horarioForm.controls.dia">
-                <mat-option *ngFor="let unDia of dias" [value]="unDia">{{ unDia.dia }}</mat-option>
+                <mat-option *ngFor="let unDia of dias" [value]="unDia.dia">{{ unDia.dia }}</mat-option>
             </mat-select>
             <mat-error *ngIf="horarioForm.controls.dia.invalid">{{ mostrarError('dia') }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Consultorio</mat-label>
             <mat-select [formControl]="horarioForm.controls.consultorio">
-                <mat-option *ngFor="let unCons of consultorios" [value]="unCons">{{ unCons.numero }}</mat-option>
+                <mat-option *ngFor="let unCons of consultorios" [value]="unCons.numero">{{ unCons.numero }}</mat-option>
             </mat-select>
             <mat-error *ngIf="horarioForm.controls.consultorio.invalid">{{ mostrarError('consultorio') }}</mat-error>
         </mat-form-field>
