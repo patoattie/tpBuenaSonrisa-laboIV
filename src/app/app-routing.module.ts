@@ -6,8 +6,8 @@ import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { PrincipalComponent } from './paginas/principal/principal.component';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['inicio']);
-const redirectLoggedInToItems = () => redirectLoggedInTo(['principal']);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/inicio']);
+const redirectLoggedInToItems = () => redirectLoggedInTo(['/principal']);
 
 const routes: Routes = [
   {
@@ -38,9 +38,6 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'inicio'
-    /*component: IngresoComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: { authGuardPipe: redirectLoggedInToItems }*/
   }
 ];
 

@@ -41,14 +41,12 @@ export class RegistroComponent implements OnInit {
         this.usuarios.adminCrearUser(this.usuario, this.clave, this.foto)
         .then(() => {
           this.toast.mostrarOk('Registro OK');
-          // this.router.navigate(['principal']);
         })
         .catch(error => this.mostrarError(error.code));
       } else {
         this.usuarios.alta(this.usuario, this.clave, this.foto)
         .then(() => {
           this.toast.mostrarOk('Registro OK');
-          // this.router.navigate(['principal']);
         })
         .catch(error => this.mostrarError(error.code));
       }

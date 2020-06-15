@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-// import { Router } from '@angular/router';
 import { UsuariosService } from '../../servicios/usuarios.service';
 import { NavegacionService } from '../../servicios/navegacion.service';
 
@@ -14,7 +13,6 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private location: Location,
     private usuarios: UsuariosService,
-    // private router: Router,
     private navega: NavegacionService
   ) { }
 
@@ -82,11 +80,9 @@ export class ToolbarComponent implements OnInit {
 
   public salir(): void {
     this.usuarios.salir();
-    // .then(() => this.router.navigate(['inicio']));
   }
 
   public navegar(ruta: string): void {
-    // this.router.navigate([ruta]);
     this.navega.navegar(ruta);
   }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Usuario } from '../clases/usuario';
 import { TipoUsuario } from '../enums/tipo-usuario.enum';
 import { DatePipe } from '@angular/common';
+import { NavegacionService } from './navegacion.service';
 import * as firebase from 'firebase/app';
 
 @Injectable({
@@ -19,16 +19,16 @@ export class UsuariosService {
     private afs: AngularFirestore,
     private pipe: DatePipe,
     private storage: AngularFireStorage,
-    private router: Router
+    private navega: NavegacionService
   ) {
     auth.getUsuario()
     .subscribe(user => {
       if (user) {
-        this.router.navigate(['principal']);
+        this.navega.navegar('/principal');
         this.traerUno(user.uid)
         .subscribe(unUsuario => this.usuario = unUsuario);
       } else {
-        this.router.navigate(['inicio']);
+        this.navega.navegar('/inicio');
       }
     });
   }
