@@ -1,19 +1,19 @@
 <table mat-table [dataSource]="datos" matSort matSortActive="numero" matSortDirection="asc" matSortDisableClear class="mat-elevation-z8">
   <ng-container matColumnDef="especialista">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialista </th>
-    <td mat-cell *matCellDef="let unHorario"> {{ getEspecialista(unHorario.especialista).displayName }} </td>
+    <td mat-cell *matCellDef="let unHorario"> {{ getColEspecialista(unHorario.especialista) }} </td>
   </ng-container>
   <ng-container matColumnDef="especialidad">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </th>
-    <td mat-cell *matCellDef="let unHorario"> {{ getEspecialista(unHorario.especialista).especialidad }} </td>
+    <td mat-cell *matCellDef="let unHorario"> {{ getColEspecialidad(unHorario.especialista) }} </td>
   </ng-container>
   <ng-container matColumnDef="dia">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Día </th>
-    <td mat-cell *matCellDef="let unHorario"> {{ getDia(unHorario.dia).dia }} </td>
+    <td mat-cell *matCellDef="let unHorario"> {{ getColDia(unHorario.dia) }} </td>
   </ng-container>
   <ng-container matColumnDef="consultorio">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Consultorio </th>
-    <td mat-cell *matCellDef="let unHorario"> {{ getConsultorio(unHorario.consultorio).numero }} </td>
+    <td mat-cell *matCellDef="let unHorario"> {{ getColConsultorio(unHorario.consultorio) }} </td>
   </ng-container>
   <ng-container matColumnDef="hhDesde">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Desde </th>
@@ -34,9 +34,15 @@
 
 <button type="button" *ngIf="!muestraDetalle" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Horario</button>
 
-<!-- <app-consultorio *ngIf="muestraDetalle"
-  [consultorio]="fila"
+<app-horario *ngIf="muestraDetalle"
+  [horario]="fila"
+  [consultorio]="getConsultorio(fila.consultorio)"
+  [dia]="getDia(fila.dia)"
+  [especialista]="getEspecialista(fila.especialista)"
+  [consultorios]="getConsultorios()"
+  [dias]="getDias()"
+  [especialistas]="getEspecialistas()"
   (cerrarEvent)="cerrarDetalle()"
   (errorEvent)="mostrarError($event)"
   (guardarEvent)="guardar($event)">
-</app-consultorio> -->
+</app-horario>

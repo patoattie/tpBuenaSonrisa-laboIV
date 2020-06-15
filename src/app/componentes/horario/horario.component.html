@@ -1,0 +1,48 @@
+<form [formGroup]="horarioForm" (ngSubmit)="guardar()">
+    <div class="container">
+        <mat-form-field appearance="fill">
+            <mat-label>Especialista</mat-label>
+            <mat-select [formControl]="horarioForm.controls.especialista">
+                <mat-option *ngFor="let unEsp of especialistas" [value]="unEsp">{{ unEsp.displayName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.especialista.invalid">{{ mostrarError('especialista') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Día de atención</mat-label>
+            <mat-select [formControl]="horarioForm.controls.dia">
+                <mat-option *ngFor="let unDia of dias" [value]="unDia">{{ unDia.dia }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.dia.invalid">{{ mostrarError('dia') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Consultorio</mat-label>
+            <mat-select [formControl]="horarioForm.controls.consultorio">
+                <mat-option *ngFor="let unCons of consultorios" [value]="unCons">{{ unCons.numero }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.consultorio.invalid">{{ mostrarError('consultorio') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Hora Desde</mat-label>
+            <mat-select [formControl]="horarioForm.controls.desde">
+                <mat-option *ngFor="let hora of horas" [value]="hora">{{ hora }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.desde.invalid">{{ mostrarError('desde') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Hora Hasta</mat-label>
+            <mat-select [formControl]="horarioForm.controls.hasta">
+                <mat-option *ngFor="let hora of horas" [value]="hora">{{ hora }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.hasta.invalid">{{ mostrarError('hasta') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Turnos x Hora</mat-label>
+            <mat-select [formControl]="horarioForm.controls.cantidad">
+                <mat-option *ngFor="let cant of cantHoras" [value]="cant">{{ cant }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="horarioForm.controls.cantidad.invalid">{{ mostrarError('cantidad') }}</mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cancelar</button>
+    </div>
+</form>

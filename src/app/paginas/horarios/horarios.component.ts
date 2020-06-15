@@ -52,7 +52,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
 
     this.dias.traerTodos()
     .pipe(takeUntil(this.desuscribir))
-    .subscribe(call => this.listaDias = call);
+    .subscribe(call => this.listaDias = call.filter(unDia => unDia.hhDesde !== null));
 
     this.consultorios.traerTodos()
     .pipe(takeUntil(this.desuscribir))
@@ -96,40 +96,97 @@ export class HorariosComponent implements OnInit, OnDestroy {
   }
 
   public guardar(nuevo: Horario): void {
-    if (this.esNuevo && this.listaHorarios.find(
-      unHorario => unHorario.consultorio === nuevo.consultorio
-        && unHorario.dia === nuevo.dia
-        && unHorario.especialista === nuevo.especialista
-    ) !== undefined) {
-      this.mostrarError('No se puede dar de alta el Horario, ya existe en la lista');
-    } else {
-      if (this.esNuevo) {
-        this.horarios.nuevo(nuevo)
-        .then(() => {
-          this.toast.mostrarOk('Alta OK');
-          this.cerrarDetalle();
-        })
-        .catch(e => console.log(e));
+    if (this.validarDia(nuevo) && this.validarEspecialidad(nuevo)) {
+      if (this.esNuevo && this.listaHorarios.find(
+        unHorario => unHorario.consultorio === nuevo.consultorio
+          && unHorario.dia === nuevo.dia
+          && unHorario.especialista === nuevo.especialista
+      ) !== undefined) {
+        this.mostrarError('No se puede dar de alta el Horario, ya existe en la lista');
       } else {
-        this.horarios.actualizar(nuevo.uid, nuevo)
-        .then(() => {
-          this.toast.mostrarOk('Actualización OK');
-          this.cerrarDetalle();
-        })
-        .catch(e => console.log(e));
+        if (this.esNuevo) {
+          this.horarios.nuevo(nuevo)
+          .then(() => {
+            this.toast.mostrarOk('Alta OK');
+            this.cerrarDetalle();
+          })
+          .catch(e => console.log(e));
+        } else {
+          this.horarios.actualizar(nuevo.uid, nuevo)
+          .then(() => {
+            this.toast.mostrarOk('Actualización OK');
+            this.cerrarDetalle();
+          })
+          .catch(e => console.log(e));
+        }
       }
     }
   }
 
+  private validarDia(nuevo: Horario): boolean {
+    const dia = this.getDia(nuevo.dia);
+    const validacion = dia.hhDesde !== null && nuevo.hhDesde >= dia.hhDesde && nuevo.hhHasta <= dia.hhHasta;
+
+    if (!validacion) {
+      this.mostrarError('El horario ingresado no respeta las horas de apertura y cierre');
+    }
+
+    return validacion;
+  }
+
+  private validarEspecialidad(nuevo: Horario): boolean {
+    const consultorio = this.getConsultorio(nuevo.consultorio);
+    const especialista = this.getEspecialista(nuevo.especialista);
+    const validacion = consultorio.especialidad === especialista.especialidad;
+
+    if (!validacion) {
+      this.mostrarError('El consultorio no es apto para el especialista');
+    }
+
+    return validacion;
+  }
+
   public getDia(idDia: number): Dia {
-    return this.listaDias.find(unDia => unDia.uid === idDia);
+    return this.listaDias ? this.listaDias.find(unDia => unDia.uid === idDia) : null;
+  }
+
+  public getColDia(idDia: number): string {
+    const d = this.getDia(idDia);
+    return d ? d.dia : '';
   }
 
   public getConsultorio(idConsultorio: string): Consultorio {
-    return this.listaConsultorios.find(unConsultorio => unConsultorio.uid === idConsultorio);
+    return this.listaConsultorios ? this.listaConsultorios.find(unConsultorio => unConsultorio.uid === idConsultorio) : null;
+  }
+
+  public getColConsultorio(idConsultorio: string): string {
+    const con = this.getConsultorio(idConsultorio);
+    return con ? con.numero.toString() : '';
   }
 
   public getEspecialista(idEspecialista: string): Usuario {
-    return this.listaEspecialistas.find(unEspecialista => unEspecialista.uid === idEspecialista);
+    return this.listaEspecialistas ? this.listaEspecialistas.find(unEspecialista => unEspecialista.uid === idEspecialista) : null;
+  }
+
+  public getColEspecialista(idEspecialista: string): string {
+    const esp = this.getEspecialista(idEspecialista);
+    return esp ? esp.displayName : '';
+  }
+
+  public getColEspecialidad(idEspecialista: string): string {
+    const esp = this.getEspecialista(idEspecialista);
+    return esp ? esp.especialidad : '';
+  }
+
+  public getDias(): Dia[] {
+    return this.listaDias.sort((a, b) => a.uid - b.uid);
+  }
+
+  public getConsultorios(): Consultorio[] {
+    return this.listaConsultorios.sort((a, b) => a.numero - b.numero);
+  }
+
+  public getEspecialistas(): Usuario[] {
+    return this.listaEspecialistas.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
   }
 }
