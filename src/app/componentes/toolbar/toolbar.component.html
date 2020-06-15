@@ -53,6 +53,10 @@
                 <span>Horarios</span>
             </button>
 
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('consultorios')">
+                <span>Consultorios</span>
+            </button>
+
             <mat-divider></mat-divider>
 
             <button mat-menu-item (click)="salir()">

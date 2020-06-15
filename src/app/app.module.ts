@@ -24,6 +24,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -37,6 +38,8 @@ import { DiasComponent } from './paginas/dias/dias.component';
 import { NullCierrePipe } from './pipes/null-cierre.pipe';
 import { DiaComponent } from './componentes/dia/dia.component';
 import { NumHoraPipe } from './pipes/num-hora.pipe';
+import { ConsultoriosComponent } from './paginas/consultorios/consultorios.component';
+import { ConsultorioComponent } from './componentes/consultorio/consultorio.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -55,7 +58,9 @@ export function tokenGetter() {
     DiasComponent,
     NullCierrePipe,
     DiaComponent,
-    NumHoraPipe
+    NumHoraPipe,
+    ConsultoriosComponent,
+    ConsultorioComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,8 @@ export function tokenGetter() {
     MatDividerModule,
     RecaptchaModule,
     MatSelectModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     DatePipe,

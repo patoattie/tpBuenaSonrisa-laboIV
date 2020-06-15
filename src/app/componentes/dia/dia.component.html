@@ -13,7 +13,7 @@
                 <mat-option *ngFor="let hora of horas" [value]="hora">{{ hora }}</mat-option>
             </mat-select>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="primary" class="btnSignup">Guardar</button>
-        <button type="button" mat-raised-button class="btnClean" (click)="cerrar()">Cancelar</button>
+        <button type="submit" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cancelar</button>
     </div>
 </form>

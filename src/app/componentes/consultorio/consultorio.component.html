@@ -1,0 +1,20 @@
+<h2 *ngIf="consultorio.numero !== null">Consultorio: {{ consultorio.numero }}</h2>
+<h2 *ngIf="consultorio.numero === null">Nuevo Consultorio</h2>
+<form [formGroup]="consultorioForm" (ngSubmit)="guardar()">
+    <div class="container">
+        <mat-form-field *ngIf="consultorio.numero === null" appearance="fill">
+            <mat-label>Número de Consultorio</mat-label>
+            <input type="number" matInput placeholder="Ingrese número de consultorio" [formControl]="consultorioForm.controls.numero">
+            <mat-error *ngIf="consultorioForm.controls.numero.invalid">{{ mostrarError('numero') }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Especialidad</mat-label>
+            <mat-select [formControl]="consultorioForm.controls.especialidad">
+                <mat-option *ngFor="let esp of enumEsp" [value]="esp">{{ esp }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="consultorioForm.controls.especialidad.invalid">{{ mostrarError('especialidad') }}</mat-error>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cancelar</button>
+    </div>
+</form>

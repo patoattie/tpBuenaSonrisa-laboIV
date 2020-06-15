@@ -25,7 +25,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   public puedeIrAtras(): boolean {
-    return this.location.path() !== '/inicio';
+    return this.location.path() !== '/inicio' && this.location.path() !== '/principal';
   }
 
   public usuarioLogueado(): boolean {
