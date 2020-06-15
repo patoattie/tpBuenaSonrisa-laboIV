@@ -1,0 +1,24 @@
+<table mat-table [dataSource]="getHorario()" class="mat-elevation-z8">
+  <ng-container matColumnDef="dia">
+    <th mat-header-cell *matHeaderCellDef> Día </th>
+    <td mat-cell *matCellDef="let unDia"> {{ unDia.dia }} </td>
+  </ng-container>
+  <ng-container matColumnDef="hhDesde">
+    <th mat-header-cell *matHeaderCellDef> Hora Desde </th>
+    <td mat-cell *matCellDef="let unDia"> {{ unDia.hhDesde | numHora | nullCierre }} </td>
+  </ng-container>
+  <ng-container matColumnDef="hhHasta">
+    <th mat-header-cell *matHeaderCellDef> Hora Hasta </th>
+    <td mat-cell *matCellDef="let unDia"> {{ unDia.hhHasta | numHora | nullCierre }} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;" (click)="editarFila(row)"></tr>
+</table>
+
+<app-dia *ngIf="muestraDetalle"
+  [dia]="fila"
+  (cerrarEvent)="cerrarDetalle()"
+  (errorEvent)="mostrarError($event)"
+  (guardarEvent)="guardar($event)">
+</app-dia>

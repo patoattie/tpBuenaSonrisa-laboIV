@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -32,6 +33,10 @@ import { ToolbarComponent } from './componentes/toolbar/toolbar.component';
 import { SignupComponent } from './componentes/signup/signup.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { PrincipalComponent } from './paginas/principal/principal.component';
+import { DiasComponent } from './paginas/dias/dias.component';
+import { NullCierrePipe } from './pipes/null-cierre.pipe';
+import { DiaComponent } from './componentes/dia/dia.component';
+import { NumHoraPipe } from './pipes/num-hora.pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -46,7 +51,11 @@ export function tokenGetter() {
     ToolbarComponent,
     SignupComponent,
     RegistroComponent,
-    PrincipalComponent
+    PrincipalComponent,
+    DiasComponent,
+    NullCierrePipe,
+    DiaComponent,
+    NumHoraPipe
   ],
   imports: [
     BrowserModule,
@@ -72,7 +81,8 @@ export function tokenGetter() {
     MatMenuModule,
     MatDividerModule,
     RecaptchaModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule
   ],
   providers: [
     DatePipe,

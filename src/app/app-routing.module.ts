@@ -5,6 +5,7 @@ import { IngresoComponent } from './paginas/ingreso/ingreso.component';
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { RegistroComponent } from './paginas/registro/registro.component';
 import { PrincipalComponent } from './paginas/principal/principal.component';
+import { DiasComponent } from './paginas/dias/dias.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/inicio']);
 const redirectLoggedInToItems = () => redirectLoggedInTo(['/principal']);
@@ -31,6 +32,12 @@ const routes: Routes = [
   {
     path: 'principal',
     component: PrincipalComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'dias',
+    component: DiasComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },
