@@ -11,6 +11,7 @@ import { Usuario } from '../../clases/usuario';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TipoUsuario } from 'src/app/enums/tipo-usuario.enum';
 
@@ -39,6 +40,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
     private especialistas: UsuariosService
   ) { }
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
       });
       this.sort.sort(this.sort.sortables.get('especialista'));
       this.datos.sort = this.sort;
+      this.datos.paginator = this.paginator;
     // this.datos.sort.sort(this.sort.sortables.get('especialista'));
     });
 
@@ -215,5 +218,10 @@ export class HorariosComponent implements OnInit, OnDestroy {
 
   public getEspecialistas(): Usuario[] {
     return this.listaEspecialistas.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+  }
+
+  public applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.datos.filter = filterValue.trim().toLowerCase();
   }
 }

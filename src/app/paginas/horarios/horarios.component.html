@@ -1,3 +1,8 @@
+<mat-form-field>
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese aquí la frase o palabra a buscar">
+</mat-form-field>
+
 <table mat-table [dataSource]="datos" matSort matSortActive="especialista" matSortDirection="desc" matSortDisableClear class="mat-elevation-z8">
   <ng-container matColumnDef="especialista">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialista </th>
@@ -31,7 +36,7 @@
   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
   <tr mat-row *matRowDef="let row; columns: columnas;" (click)="editarFila(row)"></tr>
 </table>
-
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 <button type="button" *ngIf="!muestraDetalle" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Horario</button>
 
 <app-horario *ngIf="muestraDetalle"
