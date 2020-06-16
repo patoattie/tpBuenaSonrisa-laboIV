@@ -1,5 +1,6 @@
 export enum EstadoTurno {
-    LIBRE,
+    PENDIENTE,
     ATENDIDO,
-    CANCELADO
+    CANCELADO,
+    AUSENTE
 }

@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="datos" matSort matSortActive="numero" matSortDirection="asc" matSortDisableClear class="mat-elevation-z8">
+<table mat-table [dataSource]="datos" matSort matSortActive="especialista" matSortDirection="desc" matSortDisableClear class="mat-elevation-z8">
   <ng-container matColumnDef="especialista">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Especialista </th>
     <td mat-cell *matCellDef="let unHorario"> {{ getColEspecialista(unHorario.especialista) }} </td>

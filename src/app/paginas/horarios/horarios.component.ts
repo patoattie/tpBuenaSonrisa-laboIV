@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Sort } from '@angular/material/sort';
 import { TipoUsuario } from 'src/app/enums/tipo-usuario.enum';
 
 @Component({
@@ -47,7 +48,24 @@ export class HorariosComponent implements OnInit, OnDestroy {
     .subscribe(call => {
       this.listaHorarios = call;
       this.datos = new MatTableDataSource(this.listaHorarios);
+      this.datos.sortingDataAccessor = (item, header) => {
+        switch (header) {
+          case 'especialista': return this.getColEspecialista(item.especialista);
+          case 'especialidad': return this.getColEspecialidad(item.especialista);
+          case 'dia': return this.getColDia(item.dia);
+          case 'consultorio': return this.getColConsultorio(item.consultorio);
+          default: return item[header];
+        }
+      };
+      this.sort.active = 'especialista';
+      this.sort.direction = 'asc';
+      this.sort.sortChange.emit({
+        active: this.sort.active,
+        direction: this.sort.direction
+      });
+      this.sort.sort(this.sort.sortables.get('especialista'));
       this.datos.sort = this.sort;
+      // this.datos.sort.sort(this.sort.sortables.get('especialista'));
     });
 
     this.dias.traerTodos()
