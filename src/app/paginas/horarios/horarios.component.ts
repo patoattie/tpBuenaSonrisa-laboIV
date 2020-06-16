@@ -49,6 +49,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
     .subscribe(call => {
       this.listaHorarios = call;
       this.datos = new MatTableDataSource(this.listaHorarios);
+
       this.datos.sortingDataAccessor = (item, header) => {
         switch (header) {
           case 'especialista': return this.getColEspecialista(item.especialista);
@@ -58,7 +59,6 @@ export class HorariosComponent implements OnInit, OnDestroy {
           default: return item[header];
         }
       };
-
       this.sort.active = 'especialista';
       this.sort.direction = 'asc';
       this.sort.sortChange.emit({
@@ -66,6 +66,17 @@ export class HorariosComponent implements OnInit, OnDestroy {
         direction: this.sort.direction
       });
       this.sort.sort(this.sort.sortables.get('especialista'));
+
+      this.datos.filterPredicate = (item, filtro) => {
+        return this.getColEspecialista(item.especialista).trim().toLowerCase().includes(filtro)
+          || this.getColEspecialidad(item.especialista).trim().toLowerCase().includes(filtro)
+          || this.getColDia(item.dia).trim().toLowerCase().includes(filtro)
+          || this.getColConsultorio(item.consultorio).trim().toLowerCase().includes(filtro)
+          || item.hhDesde.toString().includes(filtro)
+          || item.hhHasta.toString().includes(filtro)
+          || item.turnosPorHora.toString().includes(filtro);
+      };
+
       this.datos.sort = this.sort;
       this.datos.paginator = this.paginator;
     // this.datos.sort.sort(this.sort.sortables.get('especialista'));
