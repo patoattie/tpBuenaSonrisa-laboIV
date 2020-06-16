@@ -79,7 +79,6 @@ export class HorariosComponent implements OnInit, OnDestroy {
 
       this.datos.sort = this.sort;
       this.datos.paginator = this.paginator;
-    // this.datos.sort.sort(this.sort.sortables.get('especialista'));
     });
 
     this.dias.traerTodos()
