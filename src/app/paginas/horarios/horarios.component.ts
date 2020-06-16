@@ -12,7 +12,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Sort } from '@angular/material/sort';
 import { TipoUsuario } from 'src/app/enums/tipo-usuario.enum';
 
 @Component({
@@ -57,6 +56,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
           default: return item[header];
         }
       };
+
       this.sort.active = 'especialista';
       this.sort.direction = 'asc';
       this.sort.sortChange.emit({
@@ -65,7 +65,7 @@ export class HorariosComponent implements OnInit, OnDestroy {
       });
       this.sort.sort(this.sort.sortables.get('especialista'));
       this.datos.sort = this.sort;
-      // this.datos.sort.sort(this.sort.sortables.get('especialista'));
+    // this.datos.sort.sort(this.sort.sortables.get('especialista'));
     });
 
     this.dias.traerTodos()
@@ -87,9 +87,11 @@ export class HorariosComponent implements OnInit, OnDestroy {
   }
 
   public editarFila(unHorario: Horario): void {
+    this.fila = new Horario();
+
     if (unHorario === null) {
       this.esNuevo = true;
-      this.fila = new Horario();
+      // this.fila = new Horario();
       this.fila.consultorio = null;
       this.fila.dia = null;
       this.fila.especialista = null;
@@ -99,7 +101,14 @@ export class HorariosComponent implements OnInit, OnDestroy {
       this.fila.uid = null;
     } else {
       this.esNuevo = false;
-      this.fila = unHorario;
+      // this.fila = unHorario;
+      this.fila.consultorio = unHorario.consultorio;
+      this.fila.dia = unHorario.dia;
+      this.fila.especialista = unHorario.especialista;
+      this.fila.hhDesde = unHorario.hhDesde;
+      this.fila.hhHasta = unHorario.hhHasta;
+      this.fila.turnosPorHora = unHorario.turnosPorHora;
+      this.fila.uid = unHorario.uid;
     }
 
     this.muestraDetalle = true;

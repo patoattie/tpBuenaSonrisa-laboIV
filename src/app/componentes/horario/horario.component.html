@@ -1,6 +1,8 @@
+<h2 *ngIf="horario.especialista !== null">Especialista: {{ especialista.displayName }}</h2>
+<h2 *ngIf="horario.especialista === null">Nuevo Horario</h2>
 <form [formGroup]="horarioForm" (ngSubmit)="guardar()">
     <div class="container">
-        <mat-form-field appearance="fill">
+        <mat-form-field *ngIf="horario.especialista === null" appearance="fill">
             <mat-label>Especialista</mat-label>
             <mat-select [formControl]="horarioForm.controls.especialista">
                 <mat-option *ngFor="let unEsp of especialistas" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>
