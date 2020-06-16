@@ -43,6 +43,8 @@ import { ConsultoriosComponent } from './paginas/consultorios/consultorios.compo
 import { ConsultorioComponent } from './componentes/consultorio/consultorio.component';
 import { HorariosComponent } from './paginas/horarios/horarios.component';
 import { HorarioComponent } from './componentes/horario/horario.component';
+import { TurnosComponent } from './paginas/turnos/turnos.component';
+import { TurnoComponent } from './componentes/turno/turno.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -65,7 +67,9 @@ export function tokenGetter() {
     ConsultoriosComponent,
     ConsultorioComponent,
     HorariosComponent,
-    HorarioComponent
+    HorarioComponent,
+    TurnosComponent,
+    TurnoComponent
   ],
   imports: [
     BrowserModule,
