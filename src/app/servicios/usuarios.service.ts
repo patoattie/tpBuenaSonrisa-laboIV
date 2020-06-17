@@ -132,7 +132,7 @@ export class UsuariosService {
   }
 
   public getTipo(): TipoUsuario {
-    return TipoUsuario[this.usuario.tipo];
+    return this.usuario ? TipoUsuario[this.usuario.tipo] : -1;
   }
 
   public adminCrearUser(usuario: Usuario, clave: string, foto: File): Promise<void> {

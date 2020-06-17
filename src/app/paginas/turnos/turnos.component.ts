@@ -28,12 +28,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private listaEspecialistas: Usuario[];
   private listaClientes: Usuario[];
   private listaHorarios: Horario[];
-  public columnas: string[] = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
+  public columnas: string[]; // = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
   private desuscribir = new Subject<void>();
   public muestraDetalle = false;
   public fila: Turno;
   private esNuevo: boolean;
   public datos: MatTableDataSource<Turno>;
+  private perfil: TipoUsuario;
+  private usuarioLogueado: Usuario;
 
   constructor(
     private turnos: TurnosService,
@@ -48,11 +50,21 @@ export class TurnosComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
+    this.usuarioLogueado = this.usuarios.getUsuario();
+    this.perfil = this.usuarios.getTipo(); // Perfil del usuario logueado
+    this.columnas = this.getColumnas(this.perfil); // Columnas de la tabla según perfil
+
     this.turnos.traerTodos()
     .pipe(takeUntil(this.desuscribir))
     .subscribe(call => {
       this.listaTurnos = call;
-      this.datos = new MatTableDataSource(this.listaTurnos);
+
+      // Si el usuario es un Cliente, sólo puede ver sus propios turnos
+      if (this.perfil === this.usuarios.getTipoCliente()) {
+        this.datos = new MatTableDataSource(this.listaTurnos.filter(c2 => c2.cliente === this.usuarioLogueado.uid));
+      } else {
+        this.datos = new MatTableDataSource(this.listaTurnos);
+      }
 
       this.datos.sortingDataAccessor = (item, header) => {
         switch (header) {
@@ -95,11 +107,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
     this.usuarios.traerTodos()
     .pipe(takeUntil(this.desuscribir))
-    .subscribe(call => this.listaEspecialistas = call.filter(esp => esp.tipo === TipoUsuario[TipoUsuario.ESPECIALISTA]));
+    .subscribe(call => this.listaEspecialistas = call.filter(esp => esp.tipo === TipoUsuario[this.usuarios.getTipoEspecialista()]));
 
     this.usuarios.traerTodos()
     .pipe(takeUntil(this.desuscribir))
-    .subscribe(call => this.listaClientes = call.filter(esp => esp.tipo === TipoUsuario[TipoUsuario.CLIENTE]));
+    .subscribe(call => this.listaClientes = call.filter(esp => esp.tipo === TipoUsuario[this.usuarios.getTipoCliente()]));
   }
 
   ngOnDestroy(): void {
@@ -233,5 +245,37 @@ export class TurnosComponent implements OnInit, OnDestroy {
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.datos.filter = filterValue.trim().toLowerCase();
+  }
+
+  private getColumnas(perfil: TipoUsuario): string[] {
+    let retorno: string[];
+
+    switch (perfil) {
+      case this.usuarios.getTipoCliente():
+        retorno = ['especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
+        break;
+      case this.usuarios.getTipoEspecialista():
+        retorno = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
+        break;
+      case this.usuarios.getTipoRecepcionista():
+        retorno = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
+        break;
+      default:
+        retorno = [];
+    }
+
+    return retorno;
+  }
+
+  public getPerfil(): TipoUsuario {
+    return this.perfil;
+  }
+
+  public getUsuarioLogueado(): Usuario {
+    return this.usuarioLogueado;
+  }
+
+  public getPuedeVerCliente(): boolean {
+    return this.usuarioLogueado.tipo !== TipoUsuario[this.usuarios.getTipoCliente()];
   }
 }

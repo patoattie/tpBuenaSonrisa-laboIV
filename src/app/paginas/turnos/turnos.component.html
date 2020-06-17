@@ -47,6 +47,8 @@
   [clientes]="getClientes()"
   [horarios]="getHorarios()"
   [turnos]="getTurnos()"
+  [usuarioLogueado]="getUsuarioLogueado()"
+  [puedeVerCliente]="getPuedeVerCliente()"
   (cerrarEvent)="cerrarDetalle()"
   (errorEvent)="mostrarError($event)"
   (guardarEvent)="guardar($event)">

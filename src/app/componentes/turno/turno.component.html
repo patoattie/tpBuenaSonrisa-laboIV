@@ -1,6 +1,6 @@
 <form [formGroup]="turnoForm" (ngSubmit)="guardar()">
     <div class="container">
-        <mat-form-field appearance="fill">
+        <mat-form-field *ngIf="puedeVerCliente" appearance="fill">
             <mat-label>Cliente</mat-label>
             <mat-select [formControl]="turnoForm.controls.cliente">
                 <mat-option *ngFor="let unEsp of clientes" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>

@@ -23,6 +23,8 @@ export class TurnoComponent implements OnInit {
   @Input() consultorios: Consultorio[];
   @Input() clientes: Usuario[];
   @Input() especialistas: Usuario[];
+  @Input() usuarioLogueado: Usuario;
+  @Input() puedeVerCliente: boolean;
   @Output() cerrarEvent = new EventEmitter<void>();
   @Output() guardarEvent = new EventEmitter<Turno>();
   @Output() errorEvent = new EventEmitter<string>();
@@ -91,8 +93,6 @@ export class TurnoComponent implements OnInit {
 }
 
   public guardar(): void {
-// console.log(this.turnoForm.controls);
-// console.log(this.consultorios);
     if (this.turnoForm.valid) {
       this.turno = new Turno();
 
