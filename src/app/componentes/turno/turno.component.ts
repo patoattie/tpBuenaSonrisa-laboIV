@@ -48,6 +48,7 @@ export class TurnoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const hoy = new Date();
     this.turnoForm = this.fb.group({
       cliente: ['', Validators.compose([Validators.required])],
       fecha: ['', Validators.compose([Validators.required])],
@@ -56,7 +57,7 @@ export class TurnoComponent implements OnInit {
       hora: ['', Validators.compose([Validators.required])],
     });
 
-    this.turnoForm.controls.fecha.setValue(new Date());
+    this.turnoForm.controls.fecha.setValue(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()));
     this.setTurnosDisponibles(this.turnoForm.controls.fecha.value);
     this.datos = new MatTableDataSource(this.turnosDisponibles);
 
