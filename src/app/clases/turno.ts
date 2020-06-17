@@ -3,7 +3,7 @@ export class Turno {
     public cliente: string;
     public especialista: string;
     public consultorio: string;
-    public fecha: Date;
+    public fecha: any;
     public hora: number;
     public estado: string;
     public reseña?: string;

@@ -226,6 +226,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
     return this.listaHorarios || [];
   }
 
+  public getTurnos(): Turno[] {
+    return this.listaTurnos || [];
+  }
+
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.datos.filter = filterValue.trim().toLowerCase();

@@ -18,6 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./turno.component.css']
 })
 export class TurnoComponent implements OnInit {
+  @Input() turnos: Turno[];
   @Input() horarios: Horario[];
   @Input() consultorios: Consultorio[];
   @Input() clientes: Usuario[];
@@ -179,7 +180,11 @@ export class TurnoComponent implements OnInit {
         nuevoTurno.fecha = (fecha instanceof Date ? fecha : fecha.value);
         nuevoTurno.hora = index;
         nuevoTurno.uid = null;
-        this.turnosDisponibles.push(nuevoTurno);
+
+        // Si no está otorgado el turno lo agrego como disponible
+        if (!this.existeTurno(nuevoTurno)) {
+          this.turnosDisponibles.push(nuevoTurno);
+        }
       }
     });
 console.log(this.turnosDisponibles);
@@ -223,5 +228,16 @@ console.log(this.turnosDisponibles);
     this.turnoForm.controls.consultorio.setValue(this.getColConsultorio(unTurno.consultorio));
     this.turnoForm.controls.especialista.setValue(this.getColEspecialista(unTurno.especialista));
     this.turnoForm.controls.hora.setValue(unTurno.hora);
+  }
+
+  private existeTurno(turno: Turno): boolean {
+    // En firestore los objetos de tipo Date se guardan como Timestamp
+    // con lo cual para comparar se toma el atributo seconds del Timestamp
+    // multimplicado por 1000 comparado contra el método getTime() de Date.
+    return this.turnos.find(unTurno =>
+      unTurno.especialista === turno.especialista
+      && unTurno.estado === EstadoTurno[EstadoTurno.PENDIENTE]
+      && unTurno.fecha.seconds * 1000 === turno.fecha.getTime()
+      && unTurno.hora === turno.hora) !== undefined;
   }
 }
