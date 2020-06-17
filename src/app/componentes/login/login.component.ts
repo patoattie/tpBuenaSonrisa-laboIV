@@ -66,4 +66,45 @@ export class LoginComponent implements OnInit {
   public getOcultaClave(): boolean {
     return this.ocultaClave;
   }
+
+  public cargarUsuario(usuario: string): void {
+    switch (usuario) {
+      case 'admin':
+        this.loginForm.controls.correo.setValue('admin@admin.com');
+        this.loginForm.controls.clave.setValue('11111111');
+        break;
+      case 'recep':
+        this.loginForm.controls.correo.setValue('recep@recep.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'recep2':
+        this.loginForm.controls.correo.setValue('recep2@recep2.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'pepe':
+        this.loginForm.controls.correo.setValue('pepe@pepe.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'ruben':
+        this.loginForm.controls.correo.setValue('ruben@ruben.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'esp1':
+        this.loginForm.controls.correo.setValue('esp1@esp1.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'esp2':
+        this.loginForm.controls.correo.setValue('esp2@esp2.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'esp3':
+        this.loginForm.controls.correo.setValue('esp3@esp3.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+      case 'esp4':
+        this.loginForm.controls.correo.setValue('esp4@esp4.com');
+        this.loginForm.controls.clave.setValue('123123');
+        break;
+    }
+  }
 }
