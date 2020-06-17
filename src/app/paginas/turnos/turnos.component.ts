@@ -15,6 +15,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TipoUsuario } from '../../enums/tipo-usuario.enum';
+import { EstadoTurno } from '../../enums/estado-turno.enum';
 
 @Component({
   selector: 'app-turnos',
@@ -155,6 +156,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
         && unTurno.cliente === nuevo.cliente
         && unTurno.fecha === nuevo.fecha
         && unTurno.hora === nuevo.hora
+        && unTurno.estado === EstadoTurno[EstadoTurno.PENDIENTE]
     ) !== undefined) {
       this.mostrarError('No se puede dar de alta el Turno, ya existe en la lista');
     } else {

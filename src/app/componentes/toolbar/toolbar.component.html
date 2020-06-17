@@ -33,7 +33,7 @@
         <mat-menu #menuUsuario="matMenu">
             <mat-label class="lblUsuario" mat-menu-item>{{ getNombre() }}</mat-label>
 
-            <mat-divider *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()"></mat-divider>
+            <mat-divider *ngIf="usuarioLogueado() && (getTipoUsuario() === getTipoAdmin() || getTipoUsuario() === getTipoRecepcionista())"></mat-divider>
 
             <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('registro/'.concat(getTipoEspecialista().toString()))">
                 <span>Alta Especialista</span>
@@ -61,7 +61,7 @@
                 <span>Horarios</span>
             </button>
 
-            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoAdmin()" (click)="navegar('turnos')">
+            <button mat-menu-item *ngIf="usuarioLogueado() && getTipoUsuario() === getTipoRecepcionista()" (click)="navegar('turnos')">
                 <span>Turnos</span>
             </button>
 

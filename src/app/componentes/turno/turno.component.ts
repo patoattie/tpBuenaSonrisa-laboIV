@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NumHoraPipe } from '../../pipes/num-hora.pipe';
 import { Turno } from '../../clases/turno';
@@ -18,10 +18,6 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./turno.component.css']
 })
 export class TurnoComponent implements OnInit {
-  @Input() turno: Turno;
-  @Input() consultorio: Consultorio;
-  @Input() cliente: Usuario;
-  @Input() especialista: Usuario;
   @Input() horarios: Horario[];
   @Input() consultorios: Consultorio[];
   @Input() clientes: Usuario[];
@@ -29,17 +25,16 @@ export class TurnoComponent implements OnInit {
   @Output() cerrarEvent = new EventEmitter<void>();
   @Output() guardarEvent = new EventEmitter<Turno>();
   @Output() errorEvent = new EventEmitter<string>();
+  private turno: Turno;
   public turnoForm: FormGroup;
   private turnosDisponibles: Turno[] = [];
   public datos: MatTableDataSource<Turno>;
-  public columnas: string[] = ['especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
-  public fila: Turno;
+  public columnas: string[] = ['especialista', 'especialidad', 'consultorio', 'fecha', 'hora'];
 
   constructor(
     private fb: FormBuilder,
     private date: DatePipe,
-    private numHora: NumHoraPipe,
-    private changeDet: ChangeDetectorRef
+    private numHora: NumHoraPipe
   ) { }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -55,9 +50,12 @@ export class TurnoComponent implements OnInit {
     this.turnoForm = this.fb.group({
       cliente: ['', Validators.compose([Validators.required])],
       fecha: ['', Validators.compose([Validators.required])],
+      especialista: ['', Validators.compose([Validators.required])],
+      consultorio: ['', Validators.compose([Validators.required])],
+      hora: ['', Validators.compose([Validators.required])],
     });
 
-    this.turnoForm.controls.fecha.setValue(this.turno.fecha || new Date());
+    this.turnoForm.controls.fecha.setValue(new Date());
     this.setTurnosDisponibles(this.turnoForm.controls.fecha.value);
     this.datos = new MatTableDataSource(this.turnosDisponibles);
 
@@ -91,14 +89,20 @@ export class TurnoComponent implements OnInit {
 }
 
   public guardar(): void {
+// console.log(this.turnoForm.controls);
+// console.log(this.consultorios);
     if (this.turnoForm.valid) {
+      this.turno = new Turno();
+
+      this.turno.cliente = this.clientes
+        .find(unCli => unCli.displayName === this.turnoForm.controls.cliente.value).uid;
       this.turno.consultorio = this.consultorios
-        .find(unCons => unCons.numero === this.turnoForm.controls.consultorio.value).uid;
+        .find(unCons => unCons.numero.toString() === this.turnoForm.controls.consultorio.value).uid;
       this.turno.especialista = this.especialistas
         .find(unEsp => unEsp.displayName === this.turnoForm.controls.especialista.value).uid;
-      /*this.turno.hhDesde = this.turnoForm.controls.desde.value;
-      this.turno.hhHasta = this.turnoForm.controls.hasta.value;
-      this.turno.turnosPorHora = this.turnoForm.controls.cantidad.value;*/
+      this.turno.estado = EstadoTurno[EstadoTurno.PENDIENTE];
+      this.turno.fecha = this.turnoForm.controls.fecha.value;
+      this.turno.hora = this.turnoForm.controls.hora.value;
       this.guardarEvent.emit(this.turno);
       // this.cerrar();
     }
@@ -126,6 +130,27 @@ export class TurnoComponent implements OnInit {
           retorno = 'Error inesperado con la fecha';
         }
         break;
+      case 'especialista':
+        if (this.turnoForm.controls.especialista.hasError('required')) {
+          retorno = 'Debe ingresar un especialista';
+        } else {
+          retorno = 'Error inesperado con el especialista';
+        }
+        break;
+      case 'consultorio':
+        if (this.turnoForm.controls.consultorio.hasError('required')) {
+          retorno = 'Debe ingresar un consultorio';
+        } else {
+          retorno = 'Error inesperado con el consultorio';
+        }
+        break;
+      case 'hora':
+        if (this.turnoForm.controls.hora.hasError('required')) {
+          retorno = 'Debe ingresar una hora';
+        } else {
+          retorno = 'Error inesperado con la hora';
+        }
+        break;
     }
 
     return retorno;
@@ -136,6 +161,11 @@ export class TurnoComponent implements OnInit {
     while (this.turnosDisponibles.length > 0) {
       this.turnosDisponibles.pop();
     }
+
+    // Limpio inputs
+    this.turnoForm.controls.especialista.setValue('');
+    this.turnoForm.controls.consultorio.setValue('');
+    this.turnoForm.controls.hora.setValue('');
 
     this.horarios
     .filter(call => call.dia === (fecha instanceof Date ? fecha.getDay() : fecha.value.getDay()))
@@ -187,5 +217,11 @@ console.log(this.turnosDisponibles);
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.datos.filter = filterValue.trim().toLowerCase();
+  }
+
+  public editarFila(unTurno: Turno): void {
+    this.turnoForm.controls.consultorio.setValue(this.getColConsultorio(unTurno.consultorio));
+    this.turnoForm.controls.especialista.setValue(this.getColEspecialista(unTurno.especialista));
+    this.turnoForm.controls.hora.setValue(unTurno.hora);
   }
 }
