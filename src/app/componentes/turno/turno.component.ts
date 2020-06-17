@@ -3,6 +3,7 @@ import { Turno } from '../../clases/turno';
 import { Consultorio } from '../../clases/consultorio';
 import { Usuario } from '../../clases/usuario';
 import { Horario } from '../../clases/horario';
+import { EstadoTurno } from '../../enums/estado-turno.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -23,6 +24,7 @@ export class TurnoComponent implements OnInit {
   @Output() guardarEvent = new EventEmitter<Turno>();
   @Output() errorEvent = new EventEmitter<string>();
   public turnoForm: FormGroup;
+  private turnosDisponibles: Turno[] = [];
 
   public filtroFecha = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -38,7 +40,9 @@ export class TurnoComponent implements OnInit {
       fecha: ['', Validators.compose([Validators.required])],
     });
 
-    this.turnoForm.controls.fecha.setValue(this.turno.fecha ? this.turno.fecha : new Date());
+    this.turnoForm.controls.fecha.setValue(this.turno.fecha || new Date());
+this.setTurnosDisponibles(this.turnoForm.controls.fecha.value);
+console.log(this.turnosDisponibles);
   }
 
   public guardar(): void {
@@ -80,5 +84,24 @@ export class TurnoComponent implements OnInit {
     }
 
     return retorno;
+  }
+
+  public setTurnosDisponibles(fecha: Date): void {
+    this.turnosDisponibles = [];
+    this.horarios
+    .filter(call => call.dia === fecha.getDay())
+    .forEach(call2 => {
+      for (let index = call2.hhDesde; index <= call2.hhHasta; index = index + (1 / call2.turnosPorHora)) {
+        const nuevoTurno = new Turno();
+        nuevoTurno.cliente = null; // this.cliente.uid;
+        nuevoTurno.consultorio = call2.consultorio;
+        nuevoTurno.especialista = call2.especialista;
+        nuevoTurno.estado = EstadoTurno[EstadoTurno.PENDIENTE];
+        nuevoTurno.fecha = fecha;
+        nuevoTurno.hora = index;
+        nuevoTurno.uid = null;
+        this.turnosDisponibles.push(nuevoTurno);
+      }
+    });
   }
 }
