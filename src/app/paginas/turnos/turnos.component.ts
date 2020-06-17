@@ -1,9 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { TurnosService } from '../../servicios/turnos.service';
+import { HorariosService } from '../../servicios/horarios.service';
 import { ConsultoriosService } from '../../servicios/consultorios.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
 import { ToastService } from '../../servicios/toast.service';
 import { Turno } from '../../clases/turno';
+import { Horario } from '../../clases/horario';
 import { Consultorio } from '../../clases/consultorio';
 import { Usuario } from '../../clases/usuario';
 import { Subject } from 'rxjs';
@@ -23,6 +26,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private listaConsultorios: Consultorio[];
   private listaEspecialistas: Usuario[];
   private listaClientes: Usuario[];
+  private listaHorarios: Horario[];
   public columnas: string[] = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
   private desuscribir = new Subject<void>();
   public muestraDetalle = false;
@@ -31,17 +35,19 @@ export class TurnosComponent implements OnInit, OnDestroy {
   public datos: MatTableDataSource<Turno>;
 
   constructor(
-    private horarios: TurnosService,
+    private turnos: TurnosService,
     private toast: ToastService,
     private consultorios: ConsultoriosService,
-    private usuarios: UsuariosService
+    private usuarios: UsuariosService,
+    private date: DatePipe,
+    private horarios: HorariosService
   ) { }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
-    this.horarios.traerTodos()
+    this.turnos.traerTodos()
     .pipe(takeUntil(this.desuscribir))
     .subscribe(call => {
       this.listaTurnos = call;
@@ -69,7 +75,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
           || this.getColEspecialista(item.especialista).trim().toLowerCase().includes(filtro)
           || this.getColEspecialidad(item.especialista).trim().toLowerCase().includes(filtro)
           || this.getColConsultorio(item.consultorio).trim().toLowerCase().includes(filtro)
-          || item.fecha.trim().includes(filtro)
+          || this.date.transform(item.fecha, 'dd/MM/yyyy').trim().includes(filtro)
           || item.hora.toString().includes(filtro)
           || item.estado.trim().toLowerCase().includes(filtro);
       };
@@ -81,6 +87,10 @@ export class TurnosComponent implements OnInit, OnDestroy {
     this.consultorios.traerTodos()
     .pipe(takeUntil(this.desuscribir))
     .subscribe(call => this.listaConsultorios = call);
+
+    this.horarios.traerTodos()
+    .pipe(takeUntil(this.desuscribir))
+    .subscribe(call => this.listaHorarios = call);
 
     this.usuarios.traerTodos()
     .pipe(takeUntil(this.desuscribir))
@@ -149,14 +159,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
       this.mostrarError('No se puede dar de alta el Turno, ya existe en la lista');
     } else {
       if (this.esNuevo) {
-        this.horarios.nuevo(nuevo)
+        this.turnos.nuevo(nuevo)
         .then(() => {
           this.toast.mostrarOk('Alta OK');
           this.cerrarDetalle();
         })
         .catch(e => console.log(e));
       } else {
-        this.horarios.actualizar(nuevo.uid, nuevo)
+        this.turnos.actualizar(nuevo.uid, nuevo)
         .then(() => {
           this.toast.mostrarOk('Actualización OK');
           this.cerrarDetalle();
@@ -204,6 +214,14 @@ export class TurnosComponent implements OnInit, OnDestroy {
 
   public getEspecialistas(): Usuario[] {
     return this.listaEspecialistas.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+  }
+
+  public getClientes(): Usuario[] {
+    return this.listaClientes.sort((a, b) => a.displayName < b.displayName ? -1 : 1);
+  }
+
+  public getHorarios(): Horario[] {
+    return this.listaHorarios;
   }
 
   public applyFilter(event: Event) {

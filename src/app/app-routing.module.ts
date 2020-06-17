@@ -8,6 +8,7 @@ import { PrincipalComponent } from './paginas/principal/principal.component';
 import { DiasComponent } from './paginas/dias/dias.component';
 import { ConsultoriosComponent } from './paginas/consultorios/consultorios.component';
 import { HorariosComponent } from './paginas/horarios/horarios.component';
+import { TurnosComponent } from './paginas/turnos/turnos.component';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['/inicio']);
 const redirectLoggedInToItems = () => redirectLoggedInTo(['/principal']);
@@ -52,6 +53,12 @@ const routes: Routes = [
   {
     path: 'horarios',
     component: HorariosComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin }
+  },
+  {
+    path: 'turnos',
+    component: TurnosComponent,
     canActivate: [AngularFireAuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToLogin }
   },

@@ -26,6 +26,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -98,13 +100,19 @@ export function tokenGetter() {
     MatSelectModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     DatePipe,
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: { siteKey: '6LeFXAAVAAAAANB0sVyw-fmPazJ-XteypoQr2YA7' } as RecaptchaSettings
+    },
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'en-GB'
     }
   ],
   bootstrap: [AppComponent]

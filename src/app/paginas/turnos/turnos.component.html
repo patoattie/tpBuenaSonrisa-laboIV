@@ -38,17 +38,18 @@
   <tr mat-row *matRowDef="let row; columns: columnas;" (click)="editarFila(row)"></tr>
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-<button type="button" *ngIf="!muestraDetalle" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Horario</button>
+<button type="button" *ngIf="!muestraDetalle" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Turno</button>
 
-<!-- <app-horario *ngIf="muestraDetalle"
-  [horario]="fila"
+<app-turno *ngIf="muestraDetalle"
+  [turno]="fila"
   [consultorio]="getConsultorio(fila.consultorio)"
-  [dia]="getDia(fila.dia)"
   [especialista]="getEspecialista(fila.especialista)"
+  [cliente]="getCliente(fila.cliente)"
   [consultorios]="getConsultorios()"
-  [dias]="getDias()"
   [especialistas]="getEspecialistas()"
+  [clientes]="getClientes()"
+  [horarios]="getHorarios()"
   (cerrarEvent)="cerrarDetalle()"
   (errorEvent)="mostrarError($event)"
   (guardarEvent)="guardar($event)">
-</app-horario> -->
+</app-turno>

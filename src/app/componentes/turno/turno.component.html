@@ -1,1 +1,36 @@
-<p>turno works!</p>
+<form [formGroup]="turnoForm" (ngSubmit)="guardar()">
+    <div class="container">
+        <mat-form-field appearance="fill">
+            <mat-label>Cliente</mat-label>
+            <mat-select [formControl]="turnoForm.controls.cliente">
+                <mat-option *ngFor="let unEsp of clientes" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="turnoForm.controls.cliente.invalid">{{ mostrarError('cliente') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filtroFecha" [formControl]="turnoForm.controls.fecha" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+            <mat-error *ngIf="turnoForm.controls.fecha.invalid">{{ mostrarError('fecha') }}</mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field appearance="fill">
+            <mat-label>Especialista</mat-label>
+            <mat-select [formControl]="turnoForm.controls.especialista">
+                <mat-option *ngFor="let unEsp of especialistas" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="turnoForm.controls.especialista.invalid">{{ mostrarError('especialista') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Consultorio</mat-label>
+            <mat-select [formControl]="turnoForm.controls.consultorio">
+                <mat-option *ngFor="let unCons of consultorios" [value]="unCons.numero">{{ unCons.numero }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="turnoForm.controls.consultorio.invalid">{{ mostrarError('consultorio') }}</mat-error>
+        </mat-form-field> -->
+        <button type="submit" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cancelar</button>
+    </div>
+</form>
