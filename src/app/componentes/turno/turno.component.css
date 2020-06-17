@@ -29,3 +29,19 @@ form {
   .container {
     padding: 16px;
   }
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-sort-header-container {
+  align-items: center;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

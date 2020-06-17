@@ -106,6 +106,7 @@ export function tokenGetter() {
   ],
   providers: [
     DatePipe,
+    NumHoraPipe,
     {
       provide: RECAPTCHA_SETTINGS,
       useValue: { siteKey: '6LeFXAAVAAAAANB0sVyw-fmPazJ-XteypoQr2YA7' } as RecaptchaSettings

@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { TipoUsuario } from 'src/app/enums/tipo-usuario.enum';
+import { TipoUsuario } from '../../enums/tipo-usuario.enum';
 
 @Component({
   selector: 'app-turnos',
@@ -221,7 +221,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public getHorarios(): Horario[] {
-    return this.listaHorarios;
+    return this.listaHorarios || [];
   }
 
   public applyFilter(event: Event) {
