@@ -1,27 +1,33 @@
-# TpBuenaSonrisaLaboIV
+# TP Buena Sonrisa
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
 
-## Development server
+## Materia: Laboratorio IV
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Docente: Mario Rampi
 
-## Code scaffolding
+## Alumno: Patricio Attie
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Curso: 4A - 1° Cuatrimestre 2020
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Descripción:
+La aplicación consta de los siguientes perfiles:
+#### Administrador: 
+* Puede dar de alta usuarios del resto de los perfiles.
+* Configura los días y horarios de atención de la Clínica.
+* Configura los consultorios con su correspondiente especialidad.
+* Configura los días y horarios de atención de los diferentes especialistas, junto con la asignación de consultorio y la duración mínima de cada turno.
+#### Recepcionista:
+* Puede dar de alta turnos a pedido de clientes y especialistas.
+* Puede cancelar turnos pendientes.
+* Puede ver los turnos solicitados por cualquier cliente y asignados a cualquier especialista.
+#### Cliente:
+* Puede dar de alta un turno con un especialista.
+* Puede cancelar un turno pendiente.
+* Puede ver la reseña de un turno atendido.
+* Puede cargar la encuesta de un turno atendido.
+* Solamente puede ver los turnos solicitados por él/ella mismo/a.
+#### Especialista:
+* Puede marcar un turno como atendido.
+* Puede cargar una reseña del trabajo realizado.
+* Solamente puede ver los turnos asignados a él/ella.
