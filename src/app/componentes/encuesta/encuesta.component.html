@@ -1,0 +1,31 @@
+<h2>Especialista: {{ especialista.displayName }}</h2>
+<h2>Consultorio: {{ consultorio.numero }}</h2>
+<h2>Fecha: {{ turno.fecha.toDate() | date:'dd/MM/yyyy' }} - {{ turno.hora | numHora }}</h2>
+<form [formGroup]="encuestaForm" (ngSubmit)="guardar()">
+    <div class="container">
+        <mat-label>Puntuación Clínica ({{ encuestaForm.controls.califClinica.value }})</mat-label>
+        <mat-slider
+            [formControl]="encuestaForm.controls.califClinica"
+            thumbLabel
+            tickInterval="1"
+            min="1"
+            max="10">
+        </mat-slider>
+        <mat-error *ngIf="encuestaForm.controls.califClinica.invalid">{{ mostrarError('clinica') }}</mat-error>
+        <mat-label>Puntuación Especialista ({{ encuestaForm.controls.califEspecialista.value }})</mat-label>
+        <mat-slider
+            [formControl]="encuestaForm.controls.califEspecialista"
+            thumbLabel
+            tickInterval="1"
+            min="1"
+            max="10">
+        </mat-slider>
+        <mat-error *ngIf="encuestaForm.controls.califEspecialista.invalid">{{ mostrarError('especialista') }}</mat-error>
+        <mat-form-field appearance="fill">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput cdkTextareaAutosize placeholder="Descripción de su experiencia (opcional)" [formControl]="encuestaForm.controls.observaciones"></textarea>
+        </mat-form-field>
+        <button type="submit" *ngIf="puedeGuardar" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cerrar</button>
+    </div>
+</form>

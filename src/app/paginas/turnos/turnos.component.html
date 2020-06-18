@@ -39,7 +39,9 @@
   <!-- <tr mat-row *matRowDef="let row; columns: columnas;"></tr> -->
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-<button type="button" *ngIf="!muestraDetalle && getPuedeSacarTurno()" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Turno</button>
+<button type="button" *ngIf="!muestraDetalle && !muestraResenia && !muestraEncuesta && getPuedeSacarTurno()" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Turno</button>
+<button type="button" *ngIf="!muestraDetalle && !muestraResenia && !muestraEncuesta && puedeVerResenia()" mat-raised-button color="warn" (click)="muestraResenia = true">Reseña</button>
+<button type="button" *ngIf="!muestraDetalle && !muestraResenia && !muestraEncuesta && puedeVerEncuesta()" mat-raised-button color="accent" (click)="muestraEncuesta = true">Encuesta</button>
 
 <app-turno *ngIf="muestraDetalle"
   [turno]="fila"
@@ -62,8 +64,18 @@
 <app-resenia *ngIf="muestraResenia"
   [turno]="fila"
   [cliente]="getCliente(fila.cliente)"
+  [especialista]="getEspecialista(fila.especialista)"
   [consultorio]="getConsultorio(fila.consultorio)"
   [puedeGuardar]="getPuedeAtender()"
   (guardarEvent)="guardar($event)"
   (cerrarEvent)="cerrarDetalle()">
 </app-resenia>
+
+<app-encuesta *ngIf="muestraEncuesta"
+  [turno]="fila"
+  [especialista]="getEspecialista(fila.especialista)"
+  [consultorio]="getConsultorio(fila.consultorio)"
+  [puedeGuardar]="true"
+  (guardarEvent)="guardar($event)"
+  (cerrarEvent)="cerrarDetalle()">
+</app-encuesta>

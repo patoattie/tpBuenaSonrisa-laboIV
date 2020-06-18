@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ReseniaComponent implements OnInit {
   @Input() turno: Turno;
   @Input() cliente: Usuario;
+  @Input() especialista: Usuario;
   @Input() consultorio: Consultorio;
   @Input() puedeGuardar: boolean;
   @Output() cerrarEvent = new EventEmitter<void>();

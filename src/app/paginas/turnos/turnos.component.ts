@@ -32,6 +32,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   private desuscribir = new Subject<void>();
   public muestraDetalle = false;
   public muestraResenia = false;
+  public muestraEncuesta = false;
   public fila: Turno;
   private esNuevo: boolean;
   public datos: MatTableDataSource<Turno>;
@@ -125,7 +126,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public editarFila(unTurno: Turno): void {
-    if (!this.muestraDetalle && !this.muestraResenia) {
+    if (!this.muestraDetalle && !this.muestraResenia && !this.muestraEncuesta) {
       this.fila = new Turno();
 
       if (unTurno === null) {
@@ -156,12 +157,17 @@ export class TurnosComponent implements OnInit, OnDestroy {
         this.fila.reseña = unTurno.reseña || null;
       }
 
-      // Si el turno está atendido no se muestra detalle y en cambio habilito el botón de ver Reseña
-      if (unTurno.estado === EstadoTurno[EstadoTurno.ATENDIDO]) {
-        if (this.puedeVerResenia()) {
+      // Si el turno está atendido no se muestra detalle y en cambio
+      // habilito el botón de ver Reseña o Encuesta según corresponda
+      if (!(unTurno && unTurno.estado === EstadoTurno[EstadoTurno.ATENDIDO])) {
+        /*if (this.puedeVerResenia()) {
           this.muestraResenia = true;
         }
-      } else {
+
+        if (this.puedeVerEncuesta()) {
+          this.muestraEncuesta = true;
+        }
+      } else {*/
         this.muestraDetalle = true;
       }
     }
@@ -172,6 +178,8 @@ export class TurnosComponent implements OnInit, OnDestroy {
       this.muestraDetalle = false;
     } else if (this.muestraResenia) {
       this.muestraResenia = false;
+    } else if (this.muestraEncuesta) {
+      this.muestraEncuesta = false;
     }
   }
 
@@ -324,9 +332,15 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public puedeVerResenia(): boolean {
-    return this.usuarioLogueado
+    return (this.usuarioLogueado
     ? this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoEspecialista()]
       || this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoCliente()]
-    : false;
+    : false) && (this.fila ? this.fila.estado === EstadoTurno[EstadoTurno.ATENDIDO] : false);
+  }
+
+  public puedeVerEncuesta(): boolean {
+    return (this.usuarioLogueado
+    ? this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoCliente()]
+    : false) && (this.fila ? this.fila.estado === EstadoTurno[EstadoTurno.ATENDIDO] : false);
   }
 }

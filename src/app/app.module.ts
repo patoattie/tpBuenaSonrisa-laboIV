@@ -28,6 +28,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
@@ -48,6 +49,7 @@ import { HorarioComponent } from './componentes/horario/horario.component';
 import { TurnosComponent } from './paginas/turnos/turnos.component';
 import { TurnoComponent } from './componentes/turno/turno.component';
 import { ReseniaComponent } from './componentes/resenia/resenia.component';
+import { EncuestaComponent } from './componentes/encuesta/encuesta.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -73,7 +75,8 @@ export function tokenGetter() {
     HorarioComponent,
     TurnosComponent,
     TurnoComponent,
-    ReseniaComponent
+    ReseniaComponent,
+    EncuestaComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +107,8 @@ export function tokenGetter() {
     MatSortModule,
     MatPaginatorModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSliderModule
   ],
   providers: [
     DatePipe,

@@ -1,0 +1,36 @@
+form {
+    /*min-width: 150px;
+    max-width: 500px;
+    width: 100%;*/
+    border: 3px solid #f1f1f1;
+    margin: 16px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+  }
+  
+  button {
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 50%;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  .container {
+    padding: 16px;
+  }
+
+  mat-slider {
+    width: 300px;
+    display: block;
+  }

@@ -1,4 +1,5 @@
-<h2>Cliente: {{ cliente.displayName }}</h2>
+<h2 *ngIf="puedeGuardar">Cliente: {{ cliente.displayName }}</h2>
+<h2 *ngIf="!puedeGuardar">Especialista: {{ especialista.displayName }}</h2>
 <h2>Consultorio: {{ consultorio.numero }}</h2>
 <h2>Fecha: {{ turno.fecha.toDate() | date:'dd/MM/yyyy' }} - {{ turno.hora | numHora }}</h2>
 <form [formGroup]="reseniaForm" (ngSubmit)="guardar()">
