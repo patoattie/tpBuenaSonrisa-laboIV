@@ -33,6 +33,10 @@ button {
     margin-left: 1%;
 }
 
+button:hover {
+  opacity: 0.8;
+}
+
 @media screen and (max-width: 600px) {
     .contenedor {
         height: 65%;

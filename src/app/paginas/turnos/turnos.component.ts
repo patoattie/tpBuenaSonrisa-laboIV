@@ -31,6 +31,7 @@ export class TurnosComponent implements OnInit, OnDestroy {
   public columnas: string[]; // = ['cliente', 'especialista', 'especialidad', 'consultorio', 'fecha', 'hora', 'estado'];
   private desuscribir = new Subject<void>();
   public muestraDetalle = false;
+  public muestraResenia = false;
   public fila: Turno;
   private esNuevo: boolean;
   public datos: MatTableDataSource<Turno>;
@@ -59,9 +60,13 @@ export class TurnosComponent implements OnInit, OnDestroy {
     .subscribe(call => {
       this.listaTurnos = call;
 
-      // Si el usuario es un Cliente, sólo puede ver sus propios turnos
+      // Si el usuario es un Cliente, sólo puede ver sus propios turnos pedidos
       if (this.perfil === this.usuarios.getTipoCliente()) {
         this.datos = new MatTableDataSource(this.listaTurnos.filter(c2 => c2.cliente === this.usuarioLogueado.uid));
+      // Si el usuario es un Especialista, sólo puede ver sus propios turnos asignados
+      } else if (this.perfil === this.usuarios.getTipoEspecialista()) {
+        this.datos = new MatTableDataSource(this.listaTurnos.filter(c2 => c2.especialista === this.usuarioLogueado.uid));
+      // Si el usuario es un Recepcionista, puede ver todos los turnos
       } else {
         this.datos = new MatTableDataSource(this.listaTurnos);
       }
@@ -120,37 +125,46 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public editarFila(unTurno: Turno): void {
-    this.fila = new Turno();
+    if (!this.muestraDetalle && !this.muestraResenia) {
+      this.fila = new Turno();
 
-    if (unTurno === null) {
-      this.esNuevo = true;
-      this.fila.cliente = null;
-      this.fila.consultorio = null;
-      this.fila.especialista = null;
-      this.fila.estado = null;
-      this.fila.fecha = null;
-      this.fila.hora = null;
-      this.fila.uid = null;
-      this.fila.calificacionClinica = null;
-      this.fila.calificacionEspecialista = null;
-      this.fila.observacionesCliente = null;
-      this.fila.reseña = null;
-    } else {
-      this.esNuevo = false;
-      this.fila.cliente = unTurno.cliente;
-      this.fila.consultorio = unTurno.consultorio;
-      this.fila.especialista = unTurno.especialista;
-      this.fila.estado = unTurno.estado;
-      this.fila.fecha = unTurno.fecha;
-      this.fila.hora = unTurno.hora;
-      this.fila.uid = unTurno.uid;
-      this.fila.calificacionClinica = unTurno.calificacionClinica;
-      this.fila.calificacionEspecialista = unTurno.calificacionEspecialista;
-      this.fila.observacionesCliente = unTurno.observacionesCliente;
-      this.fila.reseña = unTurno.reseña;
+      if (unTurno === null) {
+        this.esNuevo = true;
+        this.fila.cliente = null;
+        this.fila.consultorio = null;
+        this.fila.especialista = null;
+        this.fila.estado = null;
+        this.fila.fecha = null;
+        this.fila.hora = null;
+        this.fila.uid = null;
+        this.fila.calificacionClinica = null;
+        this.fila.calificacionEspecialista = null;
+        this.fila.observacionesCliente = null;
+        this.fila.reseña = null;
+      } else {
+        this.esNuevo = false;
+        this.fila.cliente = unTurno.cliente;
+        this.fila.consultorio = unTurno.consultorio;
+        this.fila.especialista = unTurno.especialista;
+        this.fila.estado = unTurno.estado;
+        this.fila.fecha = unTurno.fecha;
+        this.fila.hora = unTurno.hora;
+        this.fila.uid = unTurno.uid;
+        this.fila.calificacionClinica = unTurno.calificacionClinica || null;
+        this.fila.calificacionEspecialista = unTurno.calificacionEspecialista || null;
+        this.fila.observacionesCliente = unTurno.observacionesCliente || null;
+        this.fila.reseña = unTurno.reseña || null;
+      }
+
+      // Si el turno está atendido no se muestra detalle y en cambio habilito el botón de ver Reseña
+      if (unTurno.estado === EstadoTurno[EstadoTurno.ATENDIDO]) {
+        if (this.puedeVerResenia()) {
+          this.muestraResenia = true;
+        }
+      } else {
+        this.muestraDetalle = true;
+      }
     }
-
-    this.muestraDetalle = true;
   }
 
   public cerrarDetalle(): void {
@@ -188,6 +202,24 @@ export class TurnosComponent implements OnInit, OnDestroy {
         .catch(e => console.log(e));
       }
     }
+  }
+
+  public cancelar(turno: Turno): void {
+    this.turnos.actualizar(turno.uid, turno)
+    .then(() => {
+      this.toast.mostrarOk('Turno Cancelado');
+      this.cerrarDetalle();
+    })
+    .catch(e => console.log(e));
+  }
+
+  public atender(turno: Turno): void {
+    this.turnos.actualizar(turno.uid, turno)
+    .then(() => {
+      this.toast.mostrarOk('Turno Atendido');
+      this.cerrarDetalle();
+    })
+    .catch(e => console.log(e));
   }
 
   public getConsultorio(idConsultorio: string): Consultorio {
@@ -276,6 +308,21 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public getPuedeVerCliente(): boolean {
-    return this.usuarioLogueado.tipo !== TipoUsuario[this.usuarios.getTipoCliente()];
+    return this.usuarioLogueado ? this.usuarioLogueado.tipo !== TipoUsuario[this.usuarios.getTipoCliente()] : false;
+  }
+
+  public getPuedeSacarTurno(): boolean {
+    return this.usuarioLogueado ? this.usuarioLogueado.tipo !== TipoUsuario[this.usuarios.getTipoEspecialista()] : false;
+  }
+
+  public getPuedeAtender(): boolean {
+    return this.usuarioLogueado ? this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoEspecialista()] : false;
+  }
+
+  public puedeVerResenia(): boolean {
+    return this.usuarioLogueado
+    ? this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoEspecialista()]
+      || this.usuarioLogueado.tipo === TipoUsuario[this.usuarios.getTipoCliente()]
+    : false;
   }
 }

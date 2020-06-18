@@ -25,10 +25,14 @@ export class TurnoComponent implements OnInit {
   @Input() especialistas: Usuario[];
   @Input() usuarioLogueado: Usuario;
   @Input() puedeVerCliente: boolean;
+  @Input() puedeSacarTurno: boolean;
+  @Input() puedeAtender: boolean;
   @Output() cerrarEvent = new EventEmitter<void>();
   @Output() guardarEvent = new EventEmitter<Turno>();
+  @Output() cancelarEvent = new EventEmitter<Turno>();
+  @Output() atenderEvent = new EventEmitter<Turno>();
   @Output() errorEvent = new EventEmitter<string>();
-  private turno: Turno;
+  @Input() turno: Turno;
   public turnoForm: FormGroup;
   private turnosDisponibles: Turno[] = [];
   public datos: MatTableDataSource<Turno>;
@@ -51,6 +55,7 @@ export class TurnoComponent implements OnInit {
 
   ngOnInit(): void {
     const hoy = new Date();
+
     this.turnoForm = this.fb.group({
       cliente: ['', Validators.compose([Validators.required])],
       fecha: ['', Validators.compose([Validators.required])],
@@ -59,8 +64,23 @@ export class TurnoComponent implements OnInit {
       hora: ['', Validators.compose([Validators.required])],
     });
 
-    this.turnoForm.controls.fecha.setValue(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()));
-    this.setTurnosDisponibles(this.turnoForm.controls.fecha.value);
+    // Si es cliente no puede elegir otros clientes, y queda seteado con su usuario.
+    if (!this.puedeVerCliente) {
+      this.turnoForm.controls.cliente.setValue(this.usuarioLogueado.displayName);
+    }
+
+    if (this.modoEdicion()) {
+      this.turnoForm.controls.cliente.setValue(this.getColCliente(this.turno.cliente));
+      this.turnoForm.controls.fecha.setValue(this.date.transform(this.turno.fecha.toDate(), 'dd/MM/yyyy'));
+      this.turnoForm.controls.especialista.setValue(this.getColEspecialista(this.turno.especialista));
+      this.turnoForm.controls.consultorio.setValue(this.getColConsultorio(this.turno.consultorio));
+      this.turnoForm.controls.hora.setValue(this.numHora.transform(this.turno.hora));
+    } else {
+      // Seteo como valor inicial la fecha de mañana, sin horas, minutos, ni segundos
+      this.turnoForm.controls.fecha.setValue(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 1));
+      this.setTurnosDisponibles(this.turnoForm.controls.fecha.value);
+    }
+
     this.datos = new MatTableDataSource(this.turnosDisponibles);
 
     this.datos.sortingDataAccessor = (item, header) => {
@@ -90,11 +110,11 @@ export class TurnoComponent implements OnInit {
 
     this.datos.sort = this.sort;
     this.datos.paginator = this.paginator;
-}
+  }
 
   public guardar(): void {
     if (this.turnoForm.valid) {
-      this.turno = new Turno();
+      // this.turno = new Turno();
 
       this.turno.cliente = this.clientes
         .find(unCli => unCli.displayName === this.turnoForm.controls.cliente.value).uid;
@@ -112,6 +132,20 @@ export class TurnoComponent implements OnInit {
 
   public cerrar(): void {
     this.cerrarEvent.emit();
+  }
+
+  public cancelar(): void {
+    if (this.puedeCancelar()) {
+      this.turno.estado = EstadoTurno[EstadoTurno.CANCELADO];
+      this.cancelarEvent.emit(this.turno);
+    }
+  }
+
+  public atender(): void {
+    if (this.getPuedeAtender()) {
+      this.turno.estado = EstadoTurno[EstadoTurno.ATENDIDO];
+      this.atenderEvent.emit(this.turno);
+    }
   }
 
   public mostrarError(control: string): string {
@@ -206,6 +240,15 @@ console.log(this.turnosDisponibles);
     return con ? con.numero.toString() : '';
   }
 
+  public getCliente(idCliente: string): Usuario {
+    return this.clientes ? this.clientes.find(unCliente => unCliente.uid === idCliente) : null;
+  }
+
+  public getColCliente(idCliente: string): string {
+    const esp = this.getCliente(idCliente);
+    return esp ? esp.displayName : '';
+  }
+
   public getEspecialista(idEspecialista: string): Usuario {
     return this.especialistas ? this.especialistas.find(unEspecialista => unEspecialista.uid === idEspecialista) : null;
   }
@@ -240,5 +283,17 @@ console.log(this.turnosDisponibles);
       && unTurno.estado === EstadoTurno[EstadoTurno.PENDIENTE]
       && unTurno.fecha.seconds * 1000 === turno.fecha.getTime()
       && unTurno.hora === turno.hora) !== undefined;
+  }
+
+  public modoEdicion(): boolean {
+    return this.turno.cliente !== null;
+  }
+
+  public puedeCancelar(): boolean {
+    return this.puedeSacarTurno && this.modoEdicion() && this.turno.estado === EstadoTurno[EstadoTurno.PENDIENTE];
+  }
+
+  public getPuedeAtender(): boolean {
+    return this.puedeAtender && this.modoEdicion() && this.turno.estado === EstadoTurno[EstadoTurno.PENDIENTE];
   }
 }

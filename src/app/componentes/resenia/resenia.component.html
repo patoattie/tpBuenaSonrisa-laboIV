@@ -1,0 +1,10 @@
+<form [formGroup]="reseniaForm" (ngSubmit)="guardar()">
+    <div class="container">
+        <mat-form-field appearance="fill">
+            <mat-label>Reseña</mat-label>
+            <textarea matInput placeholder="Ingrese Reseña de trabajo" [formControl]="reseniaForm.controls.resenia"></textarea>
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary">Guardar</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cerrar</button>
+    </div>
+</form>

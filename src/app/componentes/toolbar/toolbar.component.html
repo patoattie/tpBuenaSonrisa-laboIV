@@ -61,7 +61,7 @@
                 <span>Horarios</span>
             </button>
 
-            <button mat-menu-item *ngIf="usuarioLogueado() && (getTipoUsuario() === getTipoRecepcionista() || getTipoUsuario() === getTipoCliente())" (click)="navegar('turnos')">
+            <button mat-menu-item *ngIf="usuarioLogueado() && (getTipoUsuario() === getTipoRecepcionista() || getTipoUsuario() === getTipoCliente() || getTipoUsuario() === getTipoEspecialista())" (click)="navegar('turnos')">
                 <span>Turnos</span>
             </button>
 

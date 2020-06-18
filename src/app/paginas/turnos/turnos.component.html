@@ -35,13 +35,14 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnas"></tr>
-  <!-- <tr mat-row *matRowDef="let row; columns: columnas;" (click)="editarFila(row)"></tr> -->
-  <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnas;" (click)="editarFila(row)"></tr>
+  <!-- <tr mat-row *matRowDef="let row; columns: columnas;"></tr> -->
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-<button type="button" *ngIf="!muestraDetalle" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Turno</button>
+<button type="button" *ngIf="!muestraDetalle && getPuedeSacarTurno()" mat-raised-button color="primary" (click)="editarFila(null)">Nuevo Turno</button>
 
 <app-turno *ngIf="muestraDetalle"
+  [turno]="fila"
   [consultorios]="getConsultorios()"
   [especialistas]="getEspecialistas()"
   [clientes]="getClientes()"
@@ -49,7 +50,11 @@
   [turnos]="getTurnos()"
   [usuarioLogueado]="getUsuarioLogueado()"
   [puedeVerCliente]="getPuedeVerCliente()"
+  [puedeSacarTurno]="getPuedeSacarTurno()"
+  [puedeAtender]="getPuedeAtender()"
   (cerrarEvent)="cerrarDetalle()"
   (errorEvent)="mostrarError($event)"
-  (guardarEvent)="guardar($event)">
+  (guardarEvent)="guardar($event)"
+  (cancelarEvent)="cancelar($event)"
+  (atenderEvent)="atender($event)">
 </app-turno>

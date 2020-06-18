@@ -15,8 +15,8 @@ export class IngresoComponent implements OnInit {
     private usuarios: UsuariosService,
     private toast: ToastService,
   ) {
-    this.usuario.correo = 'admin@admin.com';
-    this.usuario.clave = '11111111';
+    // this.usuario.correo = 'admin@admin.com';
+    // this.usuario.clave = '11111111';
     // this.usuario.correo = 'pepe@pepe.com';
     // this.usuario.clave = '123123';
   }

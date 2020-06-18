@@ -47,6 +47,7 @@ import { HorariosComponent } from './paginas/horarios/horarios.component';
 import { HorarioComponent } from './componentes/horario/horario.component';
 import { TurnosComponent } from './paginas/turnos/turnos.component';
 import { TurnoComponent } from './componentes/turno/turno.component';
+import { ReseniaComponent } from './componentes/resenia/resenia.component';
 
 export function tokenGetter() {
   return localStorage.getItem('usuario');
@@ -71,7 +72,8 @@ export function tokenGetter() {
     HorariosComponent,
     HorarioComponent,
     TurnosComponent,
-    TurnoComponent
+    TurnoComponent,
+    ReseniaComponent
   ],
   imports: [
     BrowserModule,

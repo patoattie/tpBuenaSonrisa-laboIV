@@ -2,19 +2,26 @@
     <div class="container">
         <mat-form-field *ngIf="puedeVerCliente" appearance="fill">
             <mat-label>Cliente</mat-label>
-            <mat-select [formControl]="turnoForm.controls.cliente">
+            <mat-select *ngIf="!modoEdicion()" [formControl]="turnoForm.controls.cliente">
                 <mat-option *ngFor="let unEsp of clientes" [value]="unEsp.displayName">{{ unEsp.displayName }}</mat-option>
             </mat-select>
+            <input matInput *ngIf="modoEdicion()" [formControl]="turnoForm.controls.cliente" readonly>
             <mat-error *ngIf="turnoForm.controls.cliente.invalid">{{ mostrarError('cliente') }}</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field *ngIf="modoEdicion()" appearance="fill">
             <mat-label>Fecha</mat-label>
-            <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filtroFecha" [formControl]="turnoForm.controls.fecha" readonly (dateChange)="setTurnosDisponibles($event)">
-            <mat-datepicker-toggle matSuffix [for]="picker">
-                <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker touchUi #picker></mat-datepicker>
-            <mat-error *ngIf="turnoForm.controls.fecha.invalid">{{ mostrarError('fecha') }}</mat-error>
+            <input matInput [formControl]="turnoForm.controls.fecha" readonly>
+        </mat-form-field>
+        <mat-form-field *ngIf="!modoEdicion()" appearance="fill">
+            <mat-label>Fecha</mat-label>
+            <!-- <div *ngIf="!modoEdicion()"> -->
+              <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filtroFecha" [formControl]="turnoForm.controls.fecha" readonly (dateChange)="setTurnosDisponibles($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon>arrow_drop_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker></mat-datepicker>
+              <mat-error *ngIf="turnoForm.controls.fecha.invalid">{{ mostrarError('fecha') }}</mat-error>
+            <!-- </div> -->
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Especialista</mat-label>
@@ -31,8 +38,10 @@
             <input matInput [formControl]="turnoForm.controls.hora" [value]="turnoForm.controls.hora.value | numHora" readonly>
             <mat-error *ngIf="turnoForm.controls.hora.invalid">{{ mostrarError('hora') }}</mat-error>
         </mat-form-field>
-        <button type="submit" mat-raised-button color="primary">Guardar</button>
-        <button type="button" mat-raised-button (click)="cerrar()">Cancelar</button>
+        <button type="submit" *ngIf="!modoEdicion()" mat-raised-button color="primary">Guardar</button>
+        <button type="button" *ngIf="puedeCancelar()" mat-raised-button color="warn" (click)="cancelar()">Cancelar Turno</button>
+        <button type="button" *ngIf="getPuedeAtender()" mat-raised-button color="accent" (click)="atender()">Turno Atendido</button>
+        <button type="button" mat-raised-button (click)="cerrar()">Cerrar</button>
     </div>
 </form>
 <mat-form-field>
