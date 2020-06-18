@@ -1,1 +1,4 @@
-<p>principal works!</p>
+<h2 *ngIf="getUsuario()">Hola {{ getUsuario().displayName }}</h2>
+<div>
+    <mat-card *ngIf="getTipoUsuario() !== getTipoAdmin()" (click)="navegar('turnos')">Ver Turnos</mat-card>
+</div>

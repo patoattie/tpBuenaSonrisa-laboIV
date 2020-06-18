@@ -1,0 +1,14 @@
+* {
+    text-align: center;
+}
+
+mat-card {
+  width: 300px;
+}
+
+div {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
