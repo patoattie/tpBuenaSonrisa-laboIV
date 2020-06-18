@@ -58,3 +58,12 @@
   (cancelarEvent)="cancelar($event)"
   (atenderEvent)="atender($event)">
 </app-turno>
+
+<app-resenia *ngIf="muestraResenia"
+  [turno]="fila"
+  [cliente]="getCliente(fila.cliente)"
+  [consultorio]="getConsultorio(fila.consultorio)"
+  [puedeGuardar]="getPuedeAtender()"
+  (guardarEvent)="guardar($event)"
+  (cerrarEvent)="cerrarDetalle()">
+</app-resenia>

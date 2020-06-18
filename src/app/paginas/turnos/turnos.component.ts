@@ -168,7 +168,11 @@ export class TurnosComponent implements OnInit, OnDestroy {
   }
 
   public cerrarDetalle(): void {
-    this.muestraDetalle = false;
+    if (this.muestraDetalle) {
+      this.muestraDetalle = false;
+    } else if (this.muestraResenia) {
+      this.muestraResenia = false;
+    }
   }
 
   public mostrarError(msj: string): void {

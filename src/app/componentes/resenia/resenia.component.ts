@@ -13,6 +13,7 @@ export class ReseniaComponent implements OnInit {
   @Input() turno: Turno;
   @Input() cliente: Usuario;
   @Input() consultorio: Consultorio;
+  @Input() puedeGuardar: boolean;
   @Output() cerrarEvent = new EventEmitter<void>();
   @Output() guardarEvent = new EventEmitter<Turno>();
   public reseniaForm: FormGroup;
