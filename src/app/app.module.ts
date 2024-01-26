@@ -115,7 +115,7 @@ export function tokenGetter() {
     NumHoraPipe,
     {
       provide: RECAPTCHA_SETTINGS,
-      useValue: { siteKey: '6LeFXAAVAAAAANB0sVyw-fmPazJ-XteypoQr2YA7' } as RecaptchaSettings
+      useValue: { siteKey: '6LdcgF0pAAAAAG5rF0MHE31rjgb1NadA3chzkok_' } as RecaptchaSettings
     },
     {
       provide: MAT_DATE_LOCALE,
